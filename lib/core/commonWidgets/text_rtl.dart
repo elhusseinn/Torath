@@ -12,6 +12,7 @@ class RtlText extends StatelessWidget {
       content,
       style: style,
       textDirection: TextDirection.rtl,
+      textAlign: TextAlign.center,
     );
   }
 }

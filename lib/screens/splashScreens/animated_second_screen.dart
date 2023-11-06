@@ -5,21 +5,29 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:torath/core/commonWidgets/text_rtl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:torath/core/utils/preference_manager.dart';
+import 'package:torath/core/utils/routes_catalog.dart';
 
-import '../../core/images.dart';
+import '../../core/utils/images.dart';
 import 'memorial_text.dart';
 
 class AnimatedSecondScreen extends StatelessWidget {
   const AnimatedSecondScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     Timer(
         Duration(milliseconds: 5500),
-        () => Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (BuildContext context) => Container())));
+        () {
+          if(PreferenceManager.isNewUser() == true){
+            Navigator.of(context).pushReplacementNamed(RoutesCatalog.onBoarding);
+          }
+          else{
+            // navigate to home screen
+          }
+        }
+    );
     return Scaffold(
       body: Container(
           width: double.infinity,
@@ -34,7 +42,8 @@ class AnimatedSecondScreen extends StatelessWidget {
                   duration: Duration(milliseconds: 1500),
                   delay: Duration(milliseconds: 1000),
                   end: -0.4,
-                  begin: 0.5),
+                  begin: 0.5,
+              curve:Curves.easeIn),
               MemorialText(),
             ],
           )),
