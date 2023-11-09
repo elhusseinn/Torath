@@ -9,22 +9,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes_catalog.dart';
 
-import '../../core/utils/images.dart';
+import '../../core/utils/assets_catalog.dart';
 import 'memorial_text.dart';
 
 class AnimatedSecondScreen extends StatelessWidget {
-  const AnimatedSecondScreen({super.key});
+   AnimatedSecondScreen({super.key});
+  bool? isNewUser=true;
 
   @override
   Widget build(BuildContext context){
     Timer(
         Duration(milliseconds: 5500),
         () {
-          if(PreferenceManager.isNewUser() == true){
+        isNewUser= PreferenceManager.isNewUser();
+          if(isNewUser == true|| isNewUser == null){
             Navigator.of(context).pushReplacementNamed(RoutesCatalog.onBoarding);
           }
           else{
-            // navigate to home screen
+            Navigator.of(context).pushReplacementNamed(RoutesCatalog.homeScreen);
           }
         }
     );
@@ -37,7 +39,7 @@ class AnimatedSecondScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Image.asset(Images.landingSplash),
+                child: Image.asset(AssetsCatalog.landingSplash),
               ).animate().slideY(
                   duration: Duration(milliseconds: 1500),
                   delay: Duration(milliseconds: 1000),

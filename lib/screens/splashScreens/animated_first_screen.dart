@@ -18,7 +18,7 @@ class AnimatedFirstScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: 'assets/images/appIcon_big.png',
-      nextScreen:  const AnimatedSecondScreen(),
+      nextScreen:   AnimatedSecondScreen(),
       backgroundColor: const Color(0xFFD0D9D0),
       splashIconSize: double.infinity,
     );
