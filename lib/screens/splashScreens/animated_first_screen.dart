@@ -5,12 +5,7 @@ import 'package:flutter/services.dart';
 import 'animated_second_screen.dart';
 class AnimatedFirstScreen extends StatelessWidget {
    AnimatedFirstScreen({super.key}){
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+
   }
 
 

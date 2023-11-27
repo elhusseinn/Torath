@@ -114,4 +114,16 @@ class ArabicText {
       "و أوسع مدخله يارب العالمين";
 
   static const String skip = "تخطي";
+
+  static const String torath = "تراث";
+  static const String mainHome = "الرئيسية";
+  static const String favourite = "المفضلة";
+  static const String sera = "السيرة";
+  static const String contactUs = "تواصل معنا";
+  static const String mogawad = "المصحف المجود";
+  static const String moratal = "المصحف المرتل";
+  static const String mahafel = "المحافل";
+  static const String azan = "الاذان";
+  static const String pictures = "الصور";
+  static const String tvMeetings = "لقاءات اعلاميه ";
 }

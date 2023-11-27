@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes.dart';
@@ -12,6 +13,12 @@ void main() {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    systemNavigationBarIconBrightness: Brightness.light,
+  ));
 
   runApp(const MyApp());
 }
@@ -29,6 +36,15 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
+            // localizationsDelegates: const [
+            //   GlobalCupertinoLocalizations.delegate,
+            //   GlobalMaterialLocalizations.delegate,
+            //   GlobalWidgetsLocalizations.delegate,
+            // ],
+            // supportedLocales: const [
+            //   Locale("ar"),
+            // ],
+            // locale: const Locale("ar"),
             onGenerateRoute:
                 AppRouter(preferenceManager: PreferenceManager()).generateRoute,
             debugShowCheckedModeBanner: false,
