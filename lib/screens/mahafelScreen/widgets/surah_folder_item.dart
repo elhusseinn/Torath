@@ -26,7 +26,7 @@ class SurahFolderItem extends StatelessWidget {
             child: SvgPicture.asset(AssetsCatalog.folderIcon),
           ),
           SizedBox(
-            height: 5.h,
+            height: 1.5.h,
           ),
           RtlText(
             content: "سورة $surahName",

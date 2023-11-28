@@ -6,7 +6,7 @@ import '../../screens/homeScreen/home_screen.dart';
 import '../../screens/seraScreen/sera_screen.dart';
 
 class Globals {
-  static const List<String> quranSorahNames = [
+  static final List<String> quranSorahNames = [
     "الفاتحة",
     "البقرة",
     "آل عمران",
@@ -123,10 +123,10 @@ class Globals {
     "الناس"
   ];
 
-  static const List<Widget> navBarPageList = [
-    HomeScreen(),
-    FavouriteScreen(),
-    SeraScreen(),
-    ContactUsScreen(),
+  static final List<Widget> navBarPageList = [
+    const HomeScreen(),
+    const FavouriteScreen(),
+    const SeraScreen(),
+    const ContactUsScreen(),
   ];
 }

@@ -32,53 +32,56 @@ class _BottomNavBarState extends State<BottomNavBar> {
     );
   }
 
-  BottomNavigationBar buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      elevation: 0,
-      selectedItemColor: const Color(0xFF224520),
-      unselectedItemColor: const Color(0xFFD9D9D9),
-      selectedFontSize: 13.0,
-      unselectedFontSize: 13.0,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: SvgPicture.asset(AssetsCatalog.navBarHomeIcon,
-                width: 25,
-                height: 25,
-                color: widget.selected == 0
-                    ? const Color(0xFF224520)
-                    : const Color(0xFFD9D9D9)),
-            label: ArabicText.mainHome),
-        BottomNavigationBarItem(
-            icon: SvgPicture.asset(AssetsCatalog.favIcon,
-                width: 25,
-                height: 25,
-                color: widget.selected == 1
-                    ? const Color(0xFF224520)
-                    : const Color(0xFFD9D9D9)),
-            label: ArabicText.favourite),
-        BottomNavigationBarItem(
-            icon: SvgPicture.asset(AssetsCatalog.seraIcon,
-                width: 25,
-                height: 25,
-                color: widget.selected == 2
-                    ? const Color(0xFF224520)
-                    : const Color(0xFFD9D9D9)),
-            label: ArabicText.sera),
-        BottomNavigationBarItem(
-            icon: SvgPicture.asset(AssetsCatalog.contactUsIcon,
-                width: 25,
-                height: 25,
-                color: widget.selected == 3
-                    ? const Color(0xFF224520)
-                    : const Color(0xFFD9D9D9)),
-            label: ArabicText.contactUs),
-      ],
-      // currentIndex: widget.selected!,
-      onTap: (index) {
-        widget.onSelect(index);
-      },
-      backgroundColor: const Color(0xFF4A6848),
+  Directionality buildBottomNavigationBar() {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        elevation: 0,
+        selectedItemColor: const Color(0xFF224520),
+        unselectedItemColor: const Color(0xFFD9D9D9),
+        selectedFontSize: 13.0,
+        unselectedFontSize: 13.0,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(AssetsCatalog.navBarHomeIcon,
+                  width: 25,
+                  height: 25,
+                  color: widget.selected == 0
+                      ? const Color(0xFF224520)
+                      : const Color(0xFFD9D9D9)),
+              label: ArabicText.mainHome),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(AssetsCatalog.favIcon,
+                  width: 25,
+                  height: 25,
+                  color: widget.selected == 1
+                      ? const Color(0xFF224520)
+                      : const Color(0xFFD9D9D9)),
+              label: ArabicText.favourite),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(AssetsCatalog.seraIcon,
+                  width: 25,
+                  height: 25,
+                  color: widget.selected == 2
+                      ? const Color(0xFF224520)
+                      : const Color(0xFFD9D9D9)),
+              label: ArabicText.sera),
+          BottomNavigationBarItem(
+              icon: SvgPicture.asset(AssetsCatalog.contactUsIcon,
+                  width: 25,
+                  height: 25,
+                  color: widget.selected == 3
+                      ? const Color(0xFF224520)
+                      : const Color(0xFFD9D9D9)),
+              label: ArabicText.contactUs),
+        ],
+        // currentIndex: widget.selected!,
+        onTap: (index) {
+          widget.onSelect(index);
+        },
+        backgroundColor: const Color(0xFF4A6848),
+      ),
     );
   }
 
