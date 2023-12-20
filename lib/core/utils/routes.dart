@@ -8,11 +8,13 @@ import 'package:torath/screens/homeScreen/home_tabs.dart';
 import 'package:torath/screens/onBoardingScreens/on_boarding.dart';
 
 import '../../screens/mahafelScreen/mahafel_screen.dart';
+import '../repository/repo_interface.dart';
 import 'assets_catalog.dart';
 
 class AppRouter {
+  IRepository repo;
   PreferenceManager preferenceManager;
-  AppRouter({required this.preferenceManager});
+  AppRouter({required this.preferenceManager, required this.repo});
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -26,7 +28,7 @@ class AppRouter {
                   selectedPage: args,
                 ));
       case RoutesCatalog.mahafelScreen:
-        return MaterialPageRoute(builder: (_) => MahfelScreen());
+        return MaterialPageRoute(builder: (_) => MahfelScreen(repo: repo,));
     }
 
     return null;

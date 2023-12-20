@@ -1,13 +1,19 @@
+import 'package:data_connection_checker_nulls/data_connection_checker_nulls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:torath/core/utils/preference_manager.dart';
+import 'package:torath/core/utils/properties.dart';
 import 'package:torath/core/utils/routes.dart';
 import 'package:torath/screens/splashScreens/animated_first_screen.dart';
 
+import 'core/network/network_info.dart';
+import 'core/repository/repo_implementation.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Properties properties = Properties();
+  PreferenceManager preferenceManager = PreferenceManager();
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -45,8 +51,10 @@ class MyApp extends StatelessWidget {
             //   Locale("ar"),
             // ],
             // locale: const Locale("ar"),
-            onGenerateRoute:
-                AppRouter(preferenceManager: PreferenceManager()).generateRoute,
+            onGenerateRoute: AppRouter(
+              preferenceManager: PreferenceManager(),
+              repo: Repository(NetworkInfo(con: DataConnectionChecker())),
+            ).generateRoute,
             debugShowCheckedModeBanner: false,
             builder: (context, child) {
               return MediaQuery(

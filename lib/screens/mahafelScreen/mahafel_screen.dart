@@ -3,12 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:torath/core/commonWidgets/pageTemplate/page_template.dart';
+import 'package:torath/core/repository/repo_interface.dart';
 import 'package:torath/screens/mahafelScreen/widgets/surah_folder_item.dart';
 
 import '../../core/utils/globals.dart';
 
 class MahfelScreen extends StatefulWidget {
-  const MahfelScreen({super.key});
+  IRepository repo;
+  MahfelScreen({super.key, required this.repo});
 
   @override
   State<MahfelScreen> createState() => _MahfelScreenState();
@@ -36,6 +38,7 @@ class _MahfelScreenState extends State<MahfelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    widget.repo.getMahafel(params: {"select":"*"});
     return PageTemplate(
       page: Container(
         padding: EdgeInsets.only(top: 15.h),
