@@ -8,15 +8,14 @@ import 'package:torath/screens/mahafelScreen/widgets/surah_folder_item.dart';
 
 import '../../core/utils/globals.dart';
 
-class MahfelScreen extends StatefulWidget {
-  IRepository repo;
-  MahfelScreen({super.key, required this.repo});
+class SowarScreen extends StatefulWidget {
+  const SowarScreen({super.key});
 
   @override
-  State<MahfelScreen> createState() => _MahfelScreenState();
+  State<SowarScreen> createState() => _SowarScreenState();
 }
 
-class _MahfelScreenState extends State<MahfelScreen> {
+class _SowarScreenState extends State<SowarScreen> {
   List<String> _quranSorahNames = Globals.quranSorahNames;
   List<String> _searchResult = [];
 
@@ -38,7 +37,6 @@ class _MahfelScreenState extends State<MahfelScreen> {
 
   @override
   Widget build(BuildContext context) {
-    widget.repo.getMahafel(params: {"select":"*"});
     return PageTemplate(
       page: Container(
         padding: EdgeInsets.only(top: 15.h),
@@ -50,8 +48,9 @@ class _MahfelScreenState extends State<MahfelScreen> {
             ),
             Expanded(
               child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: _surahGrid()),
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: _surahGrid(),
+              ),
             ),
             SizedBox(
               height: 5.h,

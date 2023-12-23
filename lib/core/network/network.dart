@@ -116,6 +116,7 @@ class Network implements INetwork {
       bool isExtrnal = false,
       bool isFile = false,
       Map<String, String>? params,
+      Map<String, String>? otherHeaders,
       bool isFullUrl = false}) async {
     if (kDebugMode) {
       print("------ request url ${url}");
@@ -125,7 +126,7 @@ class Network implements INetwork {
     saveGetRequest(url);
 
     final response = await networkClient.get(isFullUrl ? url : (baseUrl + url),
-        headers: await getHeaders(auth, visitor, null) ,params: params);
+        headers: await getHeaders(auth, visitor, otherHeaders), params: params);
 
     return getResponse(response);
   }
@@ -207,7 +208,7 @@ class Network implements INetwork {
     if (response.statusCode == 200) {
       disposeOldRequest();
 
-      return response.data;
+      return {"data":response.data};
     } else if (response.statusCode == 401) {
       if (refreshToken == null || refreshToken == "") {
         if (response.data == "TOKEN_IS_REQUIRED" ||
@@ -234,7 +235,7 @@ class Network implements INetwork {
       bool auth, bool visitor, Map<String, String>? otherHeaders) async {
     Map<String, dynamic> headers = {};
     PreferenceManager preferenceManager = PreferenceManager();
-    String? token =Properties.supaBaseBearerToken;
+    String? token = Properties.supaBaseBearerToken;
     headers.addAll({
       "Content-Type": "application/json; charset=Utf-8",
       "accept": "*/*",

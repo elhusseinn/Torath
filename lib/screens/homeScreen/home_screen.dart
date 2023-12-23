@@ -17,32 +17,32 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeCategoryItem(
       title: ArabicText.mogawad,
       icon: AssetsCatalog.mogawad,
-      routeName: RoutesCatalog.mahafelScreen,
+      routeName: RoutesCatalog.sowarScreen,
     ),
     HomeCategoryItem(
       title: ArabicText.moratal,
       icon: AssetsCatalog.moratal,
-      routeName: RoutesCatalog.mahafelScreen,
+      routeName: RoutesCatalog.sowarScreen,
     ),
     HomeCategoryItem(
       title: ArabicText.mahafel,
       icon: AssetsCatalog.mahafel,
-      routeName: RoutesCatalog.mahafelScreen,
+      routeName: RoutesCatalog.sowarScreen,
     ),
     HomeCategoryItem(
       title: ArabicText.azan,
       icon: AssetsCatalog.azan,
-      routeName: RoutesCatalog.mahafelScreen,
+      routeName: RoutesCatalog.sowarScreen,
     ),
     HomeCategoryItem(
       title: ArabicText.pictures,
       icon: AssetsCatalog.pictures,
-      routeName: RoutesCatalog.mahafelScreen,
+      routeName: RoutesCatalog.sowarScreen,
     ),
     HomeCategoryItem(
       title: ArabicText.tvMeetings,
       icon: AssetsCatalog.tvMeetings,
-      routeName: RoutesCatalog.mahafelScreen,
+      routeName: RoutesCatalog.sowarScreen,
     ),
   ];
 

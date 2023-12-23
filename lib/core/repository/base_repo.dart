@@ -60,6 +60,7 @@ abstract class BaseRepository {
       if (kDebugMode) {
         //loggy.error(e.runtimeType);
       }
+      print(e.toString());
       return Left(GeneralFailure("GeneralFailure"));
     }
   }
