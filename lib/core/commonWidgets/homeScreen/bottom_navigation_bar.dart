@@ -45,32 +45,32 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsCatalog.navBarHomeIcon,
-                  width: 25,
-                  height: 25,
+                  width: 25.w,
+                  height: 25.h,
                   color: widget.selected == 0
                       ? const Color(0xFF224520)
                       : const Color(0xFFD9D9D9)),
               label: ArabicText.mainHome),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsCatalog.favIcon,
-                  width: 25,
-                  height: 25,
+                  width: 25.w,
+                  height: 25.h,
                   color: widget.selected == 1
                       ? const Color(0xFF224520)
                       : const Color(0xFFD9D9D9)),
               label: ArabicText.favourite),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsCatalog.seraIcon,
-                  width: 25,
-                  height: 25,
+                  width: 25.w,
+                  height: 25.h,
                   color: widget.selected == 2
                       ? const Color(0xFF224520)
                       : const Color(0xFFD9D9D9)),
               label: ArabicText.sera),
           BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsCatalog.contactUsIcon,
-                  width: 25,
-                  height: 25,
+                  width: 25.w,
+                  height: 25.h,
                   color: widget.selected == 3
                       ? const Color(0xFF224520)
                       : const Color(0xFFD9D9D9)),
@@ -79,50 +79,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
         // currentIndex: widget.selected!,
         onTap: (index) {
           widget.onSelect(index);
+          // Navigator.of(context).popUntil((route) => route.isFirst);
         },
         backgroundColor: const Color(0xFF4A6848),
       ),
     );
   }
-
-  // NavigationBar buildNavigationBar() {
-  //   return NavigationBar(
-  //     selectedIndex: 0,
-  //     indicatorColor: Colors.transparent,
-  //     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-  //     // elevation: 10,
-  //     // height: 30.h,
-  //     // backgroundColor: Colors.transparent,
-  //     backgroundColor: const Color(0xFF4A6848),
-  //     destinations: [
-  //       NavigationDestination(
-  //           icon: SvgPicture.asset(AssetsCatalog.favIcon,
-  //               height: 25,
-  //               width: 25,
-  //               color: widget.selected == 0
-  //                   ? const Color(0xFF224520)
-  //                   : const Color(0xFFD9D9D9)),
-  //           label: ArabicText.favourite),
-  //       NavigationDestination(
-  //           icon: SvgPicture.asset(AssetsCatalog.seraIcon,
-  //               height: 25,
-  //               width: 25,
-  //               color: widget.selected == 1
-  //                   ? const Color(0xFF224520)
-  //                   : const Color(0xFFD9D9D9)),
-  //           label: ArabicText.sera),
-  //       NavigationDestination(
-  //           icon: SvgPicture.asset(AssetsCatalog.contactUsIcon,
-  //               color: widget.selected == 2
-  //                   ? const Color(0xFF224520)
-  //                   : const Color(0xFFD9D9D9)),
-  //           label: ArabicText.contactUs)
-  //     ],
-  //     onDestinationSelected: (index) {
-  //       setState(() {
-  //         widget.onSelect(index);
-  //       });
-  //     },
-  //   );
-  // }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:torath/core/commonWidgets/brief_component.dart';
 import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes_catalog.dart';
+import 'package:torath/cubits/filterCubits/getAllPlacesTimesCubit/get_all_places_times_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_cubit.dart';
 import 'package:torath/screens/homeScreen/home_tabs.dart';
 import 'package:torath/screens/mahfalItemScreen/mahafel_item_screen.dart';
@@ -42,6 +43,10 @@ class AppRouter {
                   providers: [
                     BlocProvider(
                       create: (context) => GetMahfalCubit(repo),
+                    ),
+                    BlocProvider(
+                      create: (context) =>
+                          GetAllPlacesCubit(repo)..getPlacesTimes(),
                     ),
                   ],
                   child: MahfalItemScreen(

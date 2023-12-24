@@ -14,7 +14,9 @@ class PageTemplate extends StatefulWidget {
 
 class _PageTemplateState extends State<PageTemplate> {
   void onSelect(index) {
-    Navigator.popAndPushNamed(context, RoutesCatalog.homeScreen, arguments: index);
+    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.pushReplacementNamed(context, RoutesCatalog.homeScreen, arguments: index);
+
   }
 
   @override

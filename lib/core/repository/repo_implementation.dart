@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:torath/core/error/failures.dart';
+import 'package:torath/models/filters/get_all_places_times_response.dart';
 import 'package:torath/models/getMahfal/get_mahfal_response.dart';
 
 import '../networkImplementation/network_implementation_interface.dart';
@@ -18,5 +19,11 @@ class Repository extends BaseRepository implements IRepository {
       Map<String, String>? otherHeaders}) {
     return handleGeneralException(
         () => network.getMahfal(params: params, otherHeaders: otherHeaders));
+  }
+
+  @override
+  Future<Either<Failure, GetAllPlacesTimesResponse>> getPlacesTimes(
+      {required Map<String, String> params}) {
+    return handleGeneralException(() => network.getTimesPlaces(params: params));
   }
 }

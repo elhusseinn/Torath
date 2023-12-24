@@ -6,6 +6,7 @@ import 'package:torath/screens/homeScreen/home_screen.dart';
 import 'package:torath/screens/seraScreen/sera_screen.dart';
 
 import '../../core/utils/globals.dart';
+import '../../core/utils/routes_catalog.dart';
 import '../contactUsScreen/contact_us_screen.dart';
 import '../favouritesScreen/favourite_screen.dart';
 
@@ -29,6 +30,7 @@ class _HomeTabsState extends State<HomeTabs> {
   void onSelect(index) {
     setState(() {
       _page = index;
+      // Navigator.pushNamed(context, RoutesCatalog.homeScreen, arguments: index);
     });
   }
 

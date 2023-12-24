@@ -21,4 +21,10 @@ abstract class AssetsCatalog {
   static const String tvMeetings = "assets/images/tv_meetings.svg";
   static const String searchIcon = "assets/images/search_icon.svg";
   static const String folderIcon = "assets/images/folder_icon.svg";
+  static const String backButton = "assets/images/back_button.svg";
+  static const String filterButton = "assets/images/filter_icon.svg";
+  static const String musicIcon = "assets/images/music_icon.svg";
+  static const String playIcon = "assets/images/play_icon.svg";
+  static const String mediaItemPic = "assets/images/media_item_pic.png";
+  static const String filterExit = "assets/images/filter_exit.svg";
 }
