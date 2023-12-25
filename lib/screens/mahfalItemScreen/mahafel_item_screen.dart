@@ -26,41 +26,53 @@ class _MahfalItemScreenState extends State<MahfalItemScreen> {
     context.read<GetMahfalCubit>().getMahfal(surah: widget.surahName);
   }
 
-  Set<String> places = <String>{};
-  Set<String> times = <String>{};
+  void applyFilter(List<String>? places, List<String>? times) {
+    context
+        .read<GetMahfalCubit>()
+        .getMahfal(surah: widget.surahName, places: places, times: times);
+  }
+
+  List<String> places = [];
+  List<String> times = [];
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<GetAllPlacesCubit, GetAllPlacesState>(
+    return BlocConsumer<GetAllPlacesCubit, GetAllPlacesState>(
+      builder: (filterContext, filterState) {
+        if (filterState is GetAllPlacesLoadingState) {
+          return Loader();
+        }
+        return BlocBuilder<GetMahfalCubit, GetMahfalState>(
+          builder: (context, state) {
+            if (state is GetMahfalSuccessState) {
+              return PageTemplate(
+                page: MahfalScreen(
+                  data: state.response.data!,
+                  filterPlaces: places,
+                  filterTimes: times,
+                  filter: applyFilter,
+                ),
+              );
+            } else if (state is GetMahfalLoadingState) {
+              return Loader();
+            } else if (state is GetMahfalErrorState) {
+              return Container(
+                child: Center(
+                  child: Text(state.message),
+                ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        );
+      },
       listener: (filterContext, filterState) {
         if (filterState is GetAllPlacesSuccessState) {
-          places = filterState.response.places;
-          times = filterState.response.times;
+          places = filterState.response.places.toList();
+          times = filterState.response.times.toList();
         }
       },
-      child: BlocBuilder<GetMahfalCubit, GetMahfalState>(
-        builder: (context, state) {
-          if (state is GetMahfalSuccessState) {
-            return PageTemplate(
-              page: MahfalScreen(
-                data: state.response.data!,
-                filterPlaces: places,
-                filterTimes: times,
-              ),
-            );
-          } else if (state is GetMahfalLoadingState) {
-            return Loader();
-          } else if (state is GetMahfalErrorState) {
-            return Container(
-              child: Center(
-                child: Text(state.message),
-              ),
-            );
-          } else {
-            return Container();
-          }
-        },
-      ),
     );
   }
 }

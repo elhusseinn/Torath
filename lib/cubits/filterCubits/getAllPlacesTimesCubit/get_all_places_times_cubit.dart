@@ -7,10 +7,13 @@ class GetAllPlacesCubit extends Cubit<GetAllPlacesState> {
   GetAllPlacesCubit(this.repo) : super(GetAllPlacesInitialState());
   IRepository repo;
 
-  void getPlacesTimes() async {
+  void getPlacesTimes(String surahName) async {
     emit(GetAllPlacesLoadingState());
 
-    Map<String, String> params = {"select": "place,time_year"};
+    Map<String, String> params = {
+      "select": "place,time_year",
+      "surah": "eq.$surahName"
+    };
 
     var res = await repo.getPlacesTimes(params: params);
 

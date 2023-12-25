@@ -57,12 +57,14 @@ class MahfalMediaItem extends StatelessWidget {
                     padding: EdgeInsets.only(right: 20.w),
                     child: Text(
                       "${mahfalData.place!} - ${mahfalData.timeYear!}",
+                      textDirection: TextDirection.rtl,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15.sp,
                         fontFamily: 'IBM Plex Sans',
                         fontWeight: FontWeight.w500,
                       ),
+
                     ),
                   ),
                 ),

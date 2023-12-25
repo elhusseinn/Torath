@@ -77,6 +77,8 @@ class NetworkClient implements INetworkClient {
           options: Options(headers: headers), queryParameters: params);
       //  await dio.get(url, options: Options(headers: headers));
       if (kDebugMode) {
+        print("params:$params");
+        // print("headers:$headers");
         print("res:$response");
       }
       return getNetworkResponse(response);

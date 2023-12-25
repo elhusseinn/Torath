@@ -9,7 +9,7 @@ class GetMahfalCubit extends Cubit<GetMahfalState> {
   IRepository repo;
 
   void getMahfal(
-      {required String surah, String? place, String? time, int? page}) async {
+      {required String surah, List<String>? places, List<String>? times, int? page}) async {
     emit(GetMahfalLoadingState());
     Map<String, String>? otherHeaders;
     Map<String, String> params = {
@@ -17,16 +17,20 @@ class GetMahfalCubit extends Cubit<GetMahfalState> {
       "surah": "eq.$surah",
     };
 
-    place != null
-        ? params.addAll(
-            {"place": "eq.$place"},
-          )
-        : null;
-    time != null
-        ? params.addAll(
-            {"place": "eq.$time"},
-          )
-        : null;
+
+    if (places != null){
+      String x = places.join(',');
+      params.addAll(
+        {"place": "in.($x)"},
+      );
+    }
+    if (times != null){
+      String x = times.join(',');
+      params.addAll(
+        {"time_year": "in.($x)"},
+      );
+    }
+
     if (page != null) {
       final int start = (page - 1) * 20;
       final int end = start + 20;

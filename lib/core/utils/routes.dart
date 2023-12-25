@@ -46,7 +46,7 @@ class AppRouter {
                     ),
                     BlocProvider(
                       create: (context) =>
-                          GetAllPlacesCubit(repo)..getPlacesTimes(),
+                          GetAllPlacesCubit(repo)..getPlacesTimes(args),
                     ),
                   ],
                   child: MahfalItemScreen(

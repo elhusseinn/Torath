@@ -9,19 +9,25 @@ import 'filter_bottom_sheet.dart';
 
 class MahfalScreen extends StatefulWidget {
   List<MahfalData> data;
-  Set<String> filterPlaces;
-  Set<String> filterTimes;
+  List<String> filterPlaces;
+  List<String> filterTimes;
+  Function filter;
   MahfalScreen(
       {super.key,
       required this.data,
       required this.filterPlaces,
-      required this.filterTimes});
+      required this.filterTimes,
+      required this.filter});
 
   @override
   State<MahfalScreen> createState() => _MahfalScreenState();
 }
 
 class _MahfalScreenState extends State<MahfalScreen> {
+  void applyFilter(List<String> places, List<String> times){
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -65,8 +71,8 @@ class _MahfalScreenState extends State<MahfalScreen> {
 
   void _showFilterBottomSheet(BuildContext context) {
     showModalBottomSheet(
+        enableDrag: false,
         shape: const RoundedRectangleBorder(
-          // <-- SEE HERE
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(25.0),
           ),
@@ -75,6 +81,7 @@ class _MahfalScreenState extends State<MahfalScreen> {
         builder: (context) => FilterBottomSheet(
               filterTimes: widget.filterTimes,
               filterPlaces: widget.filterPlaces,
+              filter: widget.filter,
             ));
   }
 }

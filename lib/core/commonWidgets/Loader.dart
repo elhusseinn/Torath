@@ -22,9 +22,14 @@ class Loader extends StatelessWidget {
             )
           ],
         ),
-        child: LoadingAnimationWidget.fourRotatingDots(
-          color:  Colors.black,
-          size: 60.sp,
+        child: Container(
+          padding: EdgeInsets.all(20.h),
+          child: Center(
+            child: LoadingAnimationWidget.staggeredDotsWave(
+              color:  Colors.black,
+              size: 60.sp,
+            ),
+          ),
         ),
       ),
     );
