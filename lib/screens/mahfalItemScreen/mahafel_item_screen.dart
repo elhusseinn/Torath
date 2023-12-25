@@ -27,7 +27,7 @@ class _MahfalItemScreenState extends State<MahfalItemScreen> {
   }
 
   void applyFilter(List<String>? places, List<String>? times) {
-    context
+     context
         .read<GetMahfalCubit>()
         .getMahfal(surah: widget.surahName, places: places, times: times);
   }

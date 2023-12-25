@@ -24,9 +24,6 @@ class MahfalScreen extends StatefulWidget {
 }
 
 class _MahfalScreenState extends State<MahfalScreen> {
-  void applyFilter(List<String> places, List<String> times){
-
-  }
 
   @override
   Widget build(BuildContext context) {
