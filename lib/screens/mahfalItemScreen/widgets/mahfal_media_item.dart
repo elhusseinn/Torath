@@ -54,6 +54,7 @@ class MahfalMediaItem extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: Container(
+                    width: MediaQuery.of(context).size.width*0.45,
                     padding: EdgeInsets.only(right: 20.w),
                     child: Text(
                       "${mahfalData.place!} - ${mahfalData.timeYear!}",
@@ -63,7 +64,9 @@ class MahfalMediaItem extends StatelessWidget {
                         fontSize: 15.sp,
                         fontFamily: 'IBM Plex Sans',
                         fontWeight: FontWeight.w500,
+                        overflow: TextOverflow.clip
                       ),
+
 
                     ),
                   ),

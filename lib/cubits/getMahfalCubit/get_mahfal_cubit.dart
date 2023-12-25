@@ -16,24 +16,30 @@ class GetMahfalCubit extends Cubit<GetMahfalState> {
       int? page}) async {
     emit(GetMahfalLoadingState());
     Map<String, String>? otherHeaders;
-    Map<String, String> params = {
-      "select": "*",
-      "surah": "eq.$surah",
-    };
+    GetMahfalResponse response = GetMahfalResponse(data: []);
+    Map<String, String> params = {"select": "*", "surah": "eq.$surah"};
+    var surahWithoutTags =
+        await repo.getMahfal(params: params, otherHeaders: otherHeaders);
+    surahWithoutTags.fold((l) => emit(GetMahfalErrorState(l.message)),
+        (r) => response.data!.addAll(r.data!));
+
+    params.remove("surah");
+    params.addAll({"surah_tags": "cs.{$surah}"});
     if (places != null && times != null) {
-      GetMahfalResponse response = GetMahfalResponse();
       String x = places.join(',');
       params.addAll(
         {"place": "in.($x)"},
       );
       var resPlaces =
           await repo.getMahfal(params: params, otherHeaders: otherHeaders);
-      resPlaces.fold(
-          (l) => emit(GetMahfalErrorState(l.message)), (r) => response = r);
+      resPlaces.fold((l) => emit(GetMahfalErrorState(l.message)),
+          (r) => response.data!.addAll(r.data!));
       String y = times.join(',');
-      params.clear();
+      params.remove("place");
       params.addAll(
-        {"time_year": "in.($y)"},
+        {
+          "time_year": "in.($y)",
+        },
       );
       var resTimes =
           await repo.getMahfal(params: params, otherHeaders: otherHeaders);
@@ -42,7 +48,8 @@ class GetMahfalCubit extends Cubit<GetMahfalState> {
       });
       emit(GetMahfalSuccessState(response));
       return;
-    } else {
+    }
+    else {
       if (places != null) {
         String x = places.join(',');
         params.addAll(
@@ -65,6 +72,8 @@ class GetMahfalCubit extends Cubit<GetMahfalState> {
 
     var res = await repo.getMahfal(params: params, otherHeaders: otherHeaders);
     res.fold((l) => emit(GetMahfalErrorState(l.message)),
-        (r) => emit(GetMahfalSuccessState(r)));
+        (r) => response.data!.addAll(r.data!));
+
+    emit(GetMahfalSuccessState(response));
   }
 }
