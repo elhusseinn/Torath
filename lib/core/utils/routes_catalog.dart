@@ -3,4 +3,5 @@ abstract class RoutesCatalog{
   static const String homeScreen = "homeScreen";
   static const String sowarScreen = "mahafelScreen";
   static const String mahfalScreen = "mahfalScreen";
+  static const String audioPlayer = "audioPlayer";
 }

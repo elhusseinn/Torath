@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:torath/core/utils/routes_catalog.dart';
+import 'package:torath/models/DAOs/audio_player_dao.dart';
 
 import '../../../models/getMahfal/mahfal_data.dart';
 import '../../../core/utils/assets_catalog.dart';
@@ -54,20 +56,17 @@ class MahfalMediaItem extends StatelessWidget {
                 Align(
                   alignment: AlignmentDirectional.centerEnd,
                   child: Container(
-                    width: MediaQuery.of(context).size.width*0.45,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     padding: EdgeInsets.only(right: 20.w),
                     child: Text(
                       "${mahfalData.place!} - ${mahfalData.timeYear!}",
                       textDirection: TextDirection.rtl,
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 15.sp,
-                        fontFamily: 'IBM Plex Sans',
-                        fontWeight: FontWeight.w500,
-                        overflow: TextOverflow.clip
-                      ),
-
-
+                          color: Colors.black,
+                          fontSize: 15.sp,
+                          fontFamily: 'IBM Plex Sans',
+                          fontWeight: FontWeight.w500,
+                          overflow: TextOverflow.clip),
                     ),
                   ),
                 ),
@@ -84,7 +83,12 @@ class MahfalMediaItem extends StatelessWidget {
               height: 15.h,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                AudioPlayerDao audio = AudioPlayerDao(mahfalData.link!,
+                    mahfalData.surah!, mahfalData.place!, mahfalData.timeYear!);
+                Navigator.of(context)
+                    .pushNamed(RoutesCatalog.audioPlayer, arguments: audio);
+              },
               child: SvgPicture.asset(
                 AssetsCatalog.playIcon,
               ),

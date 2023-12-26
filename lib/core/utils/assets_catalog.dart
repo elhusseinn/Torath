@@ -28,4 +28,8 @@ abstract class AssetsCatalog {
   static const String mediaItemPic = "assets/images/media_item_pic.png";
   static const String filterExit = "assets/images/filter_exit.svg";
   static const String notFound = "assets/images/404.svg";
+  static const String closePlayerIcon = "assets/images/close_player_arrow.svg";
+  static const String favouriteIcon = "assets/images/favourite_icon.svg";
+  static const String downloadIcon = "assets/images/download_icon.svg";
+  static const String audioPlayerImage = "assets/images/audio_player_image.png";
 }
