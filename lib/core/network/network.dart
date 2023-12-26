@@ -140,7 +140,7 @@ class Network implements INetwork {
       bool isExternal = false,
       Map<String, String>? headers}) async {
     if (kDebugMode) {
-      print("------ request url ${url}");
+      print("------ request url ${baseUrl+url}");
       print("------ request body is $data");
     }
     savePostRequest(url, data);

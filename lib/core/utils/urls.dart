@@ -1,3 +1,3 @@
 class Urls {
-  static String mahafel = "/mahafel";
+  static String mahafel = "/rpc/get_mahfal";
 }
