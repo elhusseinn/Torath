@@ -8,6 +8,7 @@ import 'package:torath/cubits/getMahfalCubit/get_mahfal_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_state.dart';
 import 'package:torath/models/getMahfal/mahfal_data.dart';
 import 'package:torath/screens/mahfalItemScreen/widgets/mahfal_screen.dart';
+import 'package:torath/screens/mahfalItemScreen/widgets/no_mahfal_widget.dart';
 
 class MahfalItemScreen extends StatefulWidget {
   String surahName;
@@ -44,12 +45,12 @@ class _MahfalItemScreenState extends State<MahfalItemScreen> {
             times.add(item.timeYear!);
           }
           return PageTemplate(
-            page: MahfalScreen(
+            page: state.response.data!.isNotEmpty? MahfalScreen(
               data: state.response.data!,
               filterPlaces: places.toList(),
               filterTimes: times.toList(),
               filter: applyFilter,
-            ),
+            ):NoMahfalWidget(),
           );
         } else if (state is GetMahfalLoadingState) {
           return Loader();
@@ -63,6 +64,6 @@ class _MahfalItemScreenState extends State<MahfalItemScreen> {
           return Container();
         }
       },
-    );;
+    );
   }
 }

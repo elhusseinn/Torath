@@ -27,4 +27,5 @@ abstract class AssetsCatalog {
   static const String playIcon = "assets/images/play_icon.svg";
   static const String mediaItemPic = "assets/images/media_item_pic.png";
   static const String filterExit = "assets/images/filter_exit.svg";
+  static const String notFound = "assets/images/404.svg";
 }
