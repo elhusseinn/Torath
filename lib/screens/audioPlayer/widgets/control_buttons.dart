@@ -1,55 +1,94 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
-class AudioControlButtons extends StatelessWidget {
+import 'package:torath/core/utils/assets_catalog.dart';
+
+class AudioControlButtons extends StatefulWidget {
   final AudioPlayer player;
-   AudioControlButtons({super.key, required this.player});
+  AudioControlButtons({super.key, required this.player});
+
+  @override
+  State<AudioControlButtons> createState() => _AudioControlButtonsState();
+}
+
+class _AudioControlButtonsState extends State<AudioControlButtons> {
+  Widget _buildRowButtons(bool isPlaying) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: GestureDetector(
+                onTap: () {
+                  widget.player.seek(widget.player.position - Duration(seconds: 10));
+                },
+                child: SvgPicture.asset(AssetsCatalog.seekBackward10),
+              ),
+            ),
+            Container(
+              child: isPlaying
+                  ? GestureDetector(
+                      onTap: () {
+                        widget.player.pause();
+                      },
+                      child: SvgPicture.asset(AssetsCatalog.pauseButton),
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        widget.player.play();
+                      },
+                      child: SvgPicture.asset(AssetsCatalog.playButton),
+                    ),
+            ),
+            Container(
+              child: GestureDetector(
+                  onTap: () {
+                    widget.player.seek(widget.player.position + Duration(seconds: 10));
+                  },
+                  child: SvgPicture.asset(AssetsCatalog.seekForward10)),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        /// This StreamBuilder rebuilds whenever the player state changes, which
-        /// includes the playing/paused state and also the
-        /// loading/buffering/ready state. Depending on the state we show the
-        /// appropriate button or loading indicator.
-        StreamBuilder<PlayerState>(
-          stream: player.playerStateStream,
-          builder: (context, snapshot) {
-            final playerState = snapshot.data;
-            final processingState = playerState?.processingState;
-            final playing = playerState?.playing;
-            if (processingState == ProcessingState.loading ||
-                processingState == ProcessingState.buffering) {
-              return Container(
-                margin: const EdgeInsets.all(8.0),
-                width: 64.0,
-                height: 64.0,
-                child: const CircularProgressIndicator(),
-              );
-            } else if (playing != true) {
-              return IconButton(
-                icon: const Icon(Icons.play_arrow),
-                iconSize: 64.0,
-                onPressed: player.play,
-              );
-            } else if (processingState != ProcessingState.completed) {
-              return IconButton(
-                icon: const Icon(Icons.pause),
-                iconSize: 64.0,
-                onPressed: player.pause,
-              );
-            } else {
-              return IconButton(
-                icon: const Icon(Icons.replay),
-                iconSize: 64.0,
-                onPressed: () => player.seek(Duration.zero),
-              );
-            }
-          },
-        ),
-
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: 10.h),
+      child: StreamBuilder<PlayerState>(
+        stream: widget.player.playerStateStream,
+        builder: (context, snapshot) {
+          final playerState = snapshot.data;
+          final processingState = playerState?.processingState;
+          final playing = playerState?.playing;
+          if (processingState == ProcessingState.loading ||
+              processingState == ProcessingState.buffering) {
+            return Container(
+              margin: const EdgeInsets.all(8.0),
+              width: 30.0,
+              height: 30.0,
+              child: const CircularProgressIndicator(
+                color: Color(0xFF4A6848),
+              ),
+            );
+          } else if (playing != true) {
+            return _buildRowButtons(false);
+          } else if (processingState != ProcessingState.completed) {
+            return _buildRowButtons(true);
+          } else {
+            return GestureDetector(
+              onTap: () {
+                widget.player.seek(Duration.zero);
+              },
+              child: SvgPicture.asset(AssetsCatalog.replayButton),
+            );
+          }
+        },
+      ),
     );
   }
 }

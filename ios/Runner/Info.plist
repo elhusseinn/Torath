@@ -47,5 +47,14 @@
 		<true/>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+		<key>NSAllowArbitaryLoads</key>
+        <true/>
+		</dict>
+		<key>UIBackgroundsModes</key>
+		<array>
+		<string>audio</string>
+		</array>
 	</dict>
 </plist>

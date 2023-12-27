@@ -31,5 +31,10 @@ abstract class AssetsCatalog {
   static const String closePlayerIcon = "assets/images/close_player_arrow.svg";
   static const String favouriteIcon = "assets/images/favourite_icon.svg";
   static const String downloadIcon = "assets/images/download_icon.svg";
+  static const String playButton = "assets/images/play_button.svg";
+  static const String pauseButton = "assets/images/pause_button.svg";
+  static const String replayButton = "assets/images/replay_icon.svg";
+  static const String seekForward10 = "assets/images/seek_forward_10.svg";
+  static const String seekBackward10 = "assets/images/seek_backward_10.svg";
   static const String audioPlayerImage = "assets/images/audio_player_image.png";
 }

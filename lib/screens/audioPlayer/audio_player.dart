@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
 import 'package:audio_session/audio_session.dart';
@@ -13,7 +15,7 @@ import 'package:torath/screens/audioPlayer/widgets/control_buttons.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   AudioPlayerDao audio;
-  AudioPlayerScreen({super.key, required this.audio}){
+  AudioPlayerScreen({super.key, required this.audio}) {
     print(audio.link);
   }
 
@@ -40,13 +42,26 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
     // Listen to errors during playback.
     _player.playbackEventStream.listen((event) {},
         onError: (Object e, StackTrace stackTrace) {
-          print('A stream error occurred: $e');
-        });
+      print('A stream error occurred: $e');
+    });
     // Try to load audio from a source and catch any errors.
     try {
       // AAC example: https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.aac
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(widget.audio.link)));
+      await _player.setAudioSource(AudioSource.uri(
+        Uri.parse(widget.audio.link),
+        tag: MediaItem(
+          id: widget.audio.link,
+          title:
+              'سورة ${widget.audio.surahName}\n${widget.audio.place} - ${widget.audio.time}',
+          artist: "مصطفي اسماعيل",
+          // artUri: Uri.parse("file://assets/images/audio_player_image.png"),
+        ),
+      ));
     } catch (e) {
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              "لا يمكن تشغيل هذه التلاوه برجاء المحاوله مره اخري او التواصل مع الدعم")));
       print("Error loading audio source: $e");
     }
   }
@@ -57,6 +72,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
     _player.dispose();
     super.dispose();
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
@@ -66,12 +82,13 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
       _player.stop();
     }
   }
+
   Stream<PositionData> get _positionDataStream =>
       Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
           _player.positionStream,
           _player.bufferedPositionStream,
           _player.durationStream,
-              (position, bufferedPosition, duration) => PositionData(
+          (position, bufferedPosition, duration) => PositionData(
               position, bufferedPosition, duration ?? Duration.zero));
 
   @override
@@ -130,6 +147,27 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
                 SvgPicture.asset(AssetsCatalog.downloadIcon)
               ],
             ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 20.h),
+              child: StreamBuilder<PositionData>(
+                stream: _positionDataStream,
+                builder: (context, snapshot) {
+                  final positionData = snapshot.data;
+                  return ProgressBar(
+                    thumbCanPaintOutsideBar: false,
+                    thumbGlowRadius: 0,
+                    thumbRadius: 5,
+                    barCapShape: BarCapShape.square,
+                    baseBarColor: Colors.white,
+                    timeLabelPadding: 10,
+                    progress: positionData?.position ?? Duration.zero,
+                    buffered: positionData?.bufferedPosition ?? Duration.zero,
+                    total: positionData?.duration ?? Duration.zero,
+                    onSeek: _player.seek,
+                  );
+                },
+              ),
+            ),
             AudioControlButtons(player: _player)
           ],
         ),
@@ -138,7 +176,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
   }
 }
 
-class PositionData{
+class PositionData {
   Duration position;
   Duration bufferedPosition;
   Duration duration;

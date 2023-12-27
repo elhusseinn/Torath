@@ -11,12 +11,12 @@ import 'package:torath/screens/splashScreens/animated_first_screen.dart';
 import 'core/network/network_info.dart';
 import 'core/repository/repo_implementation.dart';
 
-void main() async{
-  // await JustAudioBackground.init(
-  //   androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
-  //   androidNotificationChannelName: 'Audio playback',
-  //   androidNotificationOngoing: true,
-  // );
+Future<void> main() async{
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   WidgetsFlutterBinding.ensureInitialized();
   Properties properties = Properties();
   PreferenceManager preferenceManager = PreferenceManager();
