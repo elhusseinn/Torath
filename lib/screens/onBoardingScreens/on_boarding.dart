@@ -75,7 +75,7 @@ class _OnBoardingState extends State<OnBoarding> {
                       ),
                     ),
                     SizedBox(
-                      width: 10.w,
+                      width: 15.w,
                     ),
                     SvgPicture.asset(AssetsCatalog.nextArrow),
                   ],

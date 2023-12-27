@@ -30,7 +30,9 @@ class NoMahfalWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(AssetsCatalog.notFound),
+          Container(
+              margin: EdgeInsets.only(top: 20.h),
+              child: SvgPicture.asset(AssetsCatalog.notFound)),
           Column(
             children: [
               Container(
@@ -47,11 +49,11 @@ class NoMahfalWidget extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.of(context).pop();
                 },
                 child: Container(
-                margin: EdgeInsets.only(top:45.h),
+                  margin: EdgeInsets.only(top: 45.h),
                   child: SvgPicture.asset(
                     AssetsCatalog.backButton,
                     height: 80.h,
