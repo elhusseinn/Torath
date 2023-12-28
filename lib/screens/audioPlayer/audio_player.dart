@@ -53,15 +53,19 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
           id: widget.audio.link,
           title:
               'سورة ${widget.audio.surahName}\n${widget.audio.place} - ${widget.audio.time}',
-          artist: "مصطفي اسماعيل",
-          // artUri: Uri.parse("file://assets/images/audio_player_image.png"),
+          artist: "مصطفي إسماعيل",
+          artUri: Uri.parse(
+              "https://th.bing.com/th/id/R.f366a92082b833807a7f7943f1f55c91?rik=EMjTvENQZQd1cA&pid=ImgRaw&r=0&sres=1&sresct=1"),
         ),
       ));
     } catch (e) {
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
           content: Text(
-              "لا يمكن تشغيل هذه التلاوه برجاء المحاوله مره اخري او التواصل مع الدعم")));
+              "لا يمكن تشغيل هذه التلاوه برجاء المحاوله مره اخري او التواصل مع الدعم"),
+        ),
+      );
       print("Error loading audio source: $e");
     }
   }
@@ -75,7 +79,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.detached) {
       // Release the player's resources when not in use. We use "stop" so that
       // if the app resumes later, it will still remember what position to
       // resume from.
