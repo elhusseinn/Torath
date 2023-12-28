@@ -1,12 +1,16 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
 
+import '../../../models/DAOs/position_data.dart';
+
 class AudioControlButtons extends StatefulWidget {
   final AudioPlayer player;
-  const AudioControlButtons({super.key, required this.player});
+  Stream<PositionData> positionDataStream;
+   AudioControlButtons({super.key, required this.player, required this.positionDataStream});
 
   @override
   State<AudioControlButtons> createState() => _AudioControlButtonsState();
@@ -55,38 +59,63 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 10.h),
-      child: StreamBuilder<PlayerState>(
-        stream: widget.player.playerStateStream,
-        builder: (context, snapshot) {
-          final playerState = snapshot.data;
-          final processingState = playerState?.processingState;
-          final playing = playerState?.playing;
-          if (processingState == ProcessingState.loading ||
-              processingState == ProcessingState.buffering) {
-            return Container(
-              margin: EdgeInsets.all(8.0.h),
-              width: 30.0.w,
-              height: 30.0.h,
-              child: const CircularProgressIndicator(
-                color: Color(0xFF4A6848),
-              ),
-            );
-          } else if (playing != true) {
-            return _buildRowButtons(false);
-          } else if (processingState != ProcessingState.completed) {
-            return _buildRowButtons(true);
-          } else {
-            return GestureDetector(
-              onTap: () {
-                widget.player.seek(Duration.zero);
-              },
-              child: SvgPicture.asset(AssetsCatalog.replayButton),
-            );
-          }
-        },
-      ),
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(vertical: 20.h),
+          child: StreamBuilder<PositionData>(
+            stream: widget.positionDataStream,
+            builder: (context, snapshot) {
+              final positionData = snapshot.data;
+              return ProgressBar(
+                thumbCanPaintOutsideBar: false,
+                thumbGlowRadius: 0,
+                thumbRadius: 5,
+                barCapShape: BarCapShape.square,
+                baseBarColor: Colors.white,
+                timeLabelPadding: 10,
+                progress: positionData?.position ?? Duration.zero,
+                buffered: positionData?.bufferedPosition ?? Duration.zero,
+                total: positionData?.duration ?? Duration.zero,
+                onSeek: widget.player.seek,
+              );
+            },
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 10.h),
+          child: StreamBuilder<PlayerState>(
+            stream: widget.player.playerStateStream,
+            builder: (context, snapshot) {
+              final playerState = snapshot.data;
+              final processingState = playerState?.processingState;
+              final playing = playerState?.playing;
+              if (processingState == ProcessingState.loading ||
+                  processingState == ProcessingState.buffering) {
+                return Container(
+                  margin: EdgeInsets.all(8.0.h),
+                  width: 30.0.w,
+                  height: 30.0.h,
+                  child: const CircularProgressIndicator(
+                    color: Color(0xFF4A6848),
+                  ),
+                );
+              } else if (playing != true) {
+                return _buildRowButtons(false);
+              } else if (processingState != ProcessingState.completed) {
+                return _buildRowButtons(true);
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    widget.player.seek(Duration.zero);
+                  },
+                  child: SvgPicture.asset(AssetsCatalog.replayButton),
+                );
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

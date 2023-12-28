@@ -13,6 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:torath/screens/audioPlayer/widgets/control_buttons.dart';
 
+import '../../models/DAOs/position_data.dart';
+
 class AudioPlayerScreen extends StatefulWidget {
   AudioPlayerDao audio;
   AudioPlayerScreen({super.key, required this.audio}) {
@@ -151,39 +153,13 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
                 SvgPicture.asset(AssetsCatalog.downloadIcon)
               ],
             ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 20.h),
-              child: StreamBuilder<PositionData>(
-                stream: _positionDataStream,
-                builder: (context, snapshot) {
-                  final positionData = snapshot.data;
-                  return ProgressBar(
-                    thumbCanPaintOutsideBar: false,
-                    thumbGlowRadius: 0,
-                    thumbRadius: 5,
-                    barCapShape: BarCapShape.square,
-                    baseBarColor: Colors.white,
-                    timeLabelPadding: 10,
-                    progress: positionData?.position ?? Duration.zero,
-                    buffered: positionData?.bufferedPosition ?? Duration.zero,
-                    total: positionData?.duration ?? Duration.zero,
-                    onSeek: _player.seek,
-                  );
-                },
-              ),
-            ),
-            AudioControlButtons(player: _player)
+            AudioControlButtons(
+              player: _player,
+              positionDataStream: _positionDataStream,
+            )
           ],
         ),
       ),
     );
   }
-}
-
-class PositionData {
-  Duration position;
-  Duration bufferedPosition;
-  Duration duration;
-
-  PositionData(this.position, this.bufferedPosition, this.duration);
 }
