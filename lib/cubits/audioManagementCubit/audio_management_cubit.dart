@@ -78,6 +78,10 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
     _player.stop();
   }
 
+  void endAudio() {
+    emit(EndedAudioState());
+  }
+
   void overrideAudio(AudioPlayerDao audio) {
     _player.stop();
     startAudio(audio);

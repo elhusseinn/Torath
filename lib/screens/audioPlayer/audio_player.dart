@@ -1,12 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ffi';
+
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
@@ -153,9 +157,12 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
                 SvgPicture.asset(AssetsCatalog.downloadIcon)
               ],
             ),
-            AudioControlButtons(
-              player: _player,
-              positionDataStream: _positionDataStream,
+            BlocProvider.value(
+              value: BlocProvider.of<AudioManagementCubit>(context),
+              child: AudioControlButtons(
+                player: _player,
+                positionDataStream: _positionDataStream,
+              ),
             )
           ],
         ),

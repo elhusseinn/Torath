@@ -49,15 +49,6 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => MaterialApp(
-            // localizationsDelegates: const [
-            //   GlobalCupertinoLocalizations.delegate,
-            //   GlobalMaterialLocalizations.delegate,
-            //   GlobalWidgetsLocalizations.delegate,
-            // ],
-            // supportedLocales: const [
-            //   Locale("ar"),
-            // ],
-            // locale: const Locale("ar"),
             onGenerateRoute: AppRouter(
               preferenceManager: PreferenceManager(),
               repo: Repository(NetworkInfo(con: DataConnectionChecker())),

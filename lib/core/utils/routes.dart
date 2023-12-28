@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:torath/core/commonWidgets/brief_component.dart';
 import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes_catalog.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/filterCubits/getAllPlacesTimesCubit/get_all_places_times_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_cubit.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
@@ -22,6 +23,7 @@ class AppRouter {
   PreferenceManager preferenceManager;
 
   AppRouter({required this.preferenceManager, required this.repo});
+  final audioManagementCubit = AudioManagementCubit();
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -31,15 +33,22 @@ class AppRouter {
       case RoutesCatalog.homeScreen:
         final args = settings.arguments as int?;
         return MaterialPageRoute(
-            builder: (_) => HomeTabs(
-                  selectedPage: args,
+            builder: (_) => BlocProvider.value(
+                  value: audioManagementCubit,
+                  child: HomeTabs(
+                    selectedPage: args,
+                  ),
                 ));
 
       case RoutesCatalog.audioPlayer:
         final args = settings.arguments as AudioPlayerDao;
         return PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              AudioPlayerScreen(audio: args),
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return BlocProvider.value(
+              value: audioManagementCubit,
+              child: AudioPlayerScreen(audio: args),
+            );
+          },
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             // Define the offset animation (from bottom to top)
             const begin = Offset(0.0, 1.0);
@@ -73,6 +82,9 @@ class AppRouter {
                     BlocProvider(
                       create: (context) =>
                           GetAllPlacesCubit(repo)..getPlacesTimes(args),
+                    ),
+                    BlocProvider.value(
+                      value: audioManagementCubit,
                     ),
                   ],
                   child: MahfalItemScreen(

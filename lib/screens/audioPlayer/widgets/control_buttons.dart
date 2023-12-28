@@ -1,16 +1,19 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 
 import '../../../models/DAOs/position_data.dart';
 
 class AudioControlButtons extends StatefulWidget {
   final AudioPlayer player;
   Stream<PositionData> positionDataStream;
-   AudioControlButtons({super.key, required this.player, required this.positionDataStream});
+  AudioControlButtons(
+      {super.key, required this.player, required this.positionDataStream});
 
   @override
   State<AudioControlButtons> createState() => _AudioControlButtonsState();
@@ -25,8 +28,8 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
           children: [
             GestureDetector(
               onTap: () {
-                widget.player.seek(
-                    widget.player.position - const Duration(seconds: 10));
+                widget.player
+                    .seek(widget.player.position - const Duration(seconds: 10));
               },
               child: SvgPicture.asset(AssetsCatalog.seekBackward10),
             ),
@@ -34,13 +37,15 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
               child: isPlaying
                   ? GestureDetector(
                       onTap: () {
-                        widget.player.pause();
+                        context.read<AudioManagementCubit>().pauseAudio();
+                        // widget.player.pause();
                       },
                       child: SvgPicture.asset(AssetsCatalog.pauseButton),
                     )
                   : GestureDetector(
                       onTap: () {
-                        widget.player.play();
+                        context.read<AudioManagementCubit>().playAudio();
+                        // widget.player.play();
                       },
                       child: SvgPicture.asset(AssetsCatalog.playButton),
                     ),
@@ -105,6 +110,7 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
               } else if (processingState != ProcessingState.completed) {
                 return _buildRowButtons(true);
               } else {
+                context.read<AudioManagementCubit>().endAudio();
                 return GestureDetector(
                   onTap: () {
                     widget.player.seek(Duration.zero);

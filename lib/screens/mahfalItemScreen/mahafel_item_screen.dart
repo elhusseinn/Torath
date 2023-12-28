@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:torath/core/commonWidgets/Loader.dart';
 import 'package:torath/core/commonWidgets/pageTemplate/page_template.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_state.dart';
 import 'package:torath/models/getMahfal/mahfal_data.dart';
@@ -28,8 +29,8 @@ class _MahfalItemScreenState extends State<MahfalItemScreen> {
 
   void applyFilter(List<String>? places, List<String>? times) {
     context
-       .read<GetMahfalCubit>()
-       .getMahfal(surah: widget.surahName, places: places, times: times);
+        .read<GetMahfalCubit>()
+        .getMahfal(surah: widget.surahName, places: places, times: times);
   }
 
   Set<String> places = {};
@@ -40,17 +41,22 @@ class _MahfalItemScreenState extends State<MahfalItemScreen> {
     return BlocBuilder<GetMahfalCubit, GetMahfalState>(
       builder: (context, state) {
         if (state is GetMahfalSuccessState) {
-          for(MahfalData item in state.response.data!){
+          for (MahfalData item in state.response.data!) {
             places.add(item.place!);
             times.add(item.timeYear!);
           }
-          return PageTemplate(
-            page: state.response.data!.isNotEmpty? MahfalScreen(
-              data: state.response.data!,
-              filterPlaces: places.toList(),
-              filterTimes: times.toList(),
-              filter: applyFilter,
-            ):NoMahfalWidget(),
+          return BlocProvider.value(
+            value: BlocProvider.of<AudioManagementCubit>(context),
+            child: PageTemplate(
+              page: state.response.data!.isNotEmpty
+                  ? MahfalScreen(
+                      data: state.response.data!,
+                      filterPlaces: places.toList(),
+                      filterTimes: times.toList(),
+                      filter: applyFilter,
+                    )
+                  : NoMahfalWidget(),
+            ),
           );
         } else if (state is GetMahfalLoadingState) {
           return Loader();

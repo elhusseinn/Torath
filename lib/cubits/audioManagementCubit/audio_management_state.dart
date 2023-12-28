@@ -39,8 +39,6 @@ class PausedAudioState extends AudioManagementState {
 }
 
 class EndedAudioState extends AudioManagementState {
-
-
   @override
   List<Object> get props => [];
 }
