@@ -30,14 +30,12 @@ class SurahFolderItem extends StatelessWidget {
             )
           ],
         ),
-        height: 110.h,
-        width: 110.w,
+        // height: 110.h,
+        // width: 110.w,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              padding: EdgeInsets.only(top: 20.h, left: 15.w, right: 15.w),
-              child: SvgPicture.asset(AssetsCatalog.folderIcon),
-            ),
+            SvgPicture.asset(AssetsCatalog.folderIcon),
             SizedBox(
               height: 1.5.h,
             ),
@@ -50,6 +48,7 @@ class SurahFolderItem extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
+
           ],
         ),
       ),

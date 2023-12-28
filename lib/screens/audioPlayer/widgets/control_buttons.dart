@@ -6,7 +6,7 @@ import 'package:torath/core/utils/assets_catalog.dart';
 
 class AudioControlButtons extends StatefulWidget {
   final AudioPlayer player;
-  AudioControlButtons({super.key, required this.player});
+  const AudioControlButtons({super.key, required this.player});
 
   @override
   State<AudioControlButtons> createState() => _AudioControlButtonsState();
@@ -19,13 +19,12 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              child: GestureDetector(
-                onTap: () {
-                  widget.player.seek(widget.player.position - Duration(seconds: 10));
-                },
-                child: SvgPicture.asset(AssetsCatalog.seekBackward10),
-              ),
+            GestureDetector(
+              onTap: () {
+                widget.player.seek(
+                    widget.player.position - const Duration(seconds: 10));
+              },
+              child: SvgPicture.asset(AssetsCatalog.seekBackward10),
             ),
             Container(
               child: isPlaying
@@ -42,13 +41,12 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
                       child: SvgPicture.asset(AssetsCatalog.playButton),
                     ),
             ),
-            Container(
-              child: GestureDetector(
-                  onTap: () {
-                    widget.player.seek(widget.player.position + Duration(seconds: 10));
-                  },
-                  child: SvgPicture.asset(AssetsCatalog.seekForward10)),
-            ),
+            GestureDetector(
+                onTap: () {
+                  widget.player.seek(
+                      widget.player.position + const Duration(seconds: 10));
+                },
+                child: SvgPicture.asset(AssetsCatalog.seekForward10)),
           ],
         ),
       ],
@@ -68,9 +66,9 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
           if (processingState == ProcessingState.loading ||
               processingState == ProcessingState.buffering) {
             return Container(
-              margin: const EdgeInsets.all(8.0),
-              width: 30.0,
-              height: 30.0,
+              margin: EdgeInsets.all(8.0.h),
+              width: 30.0.w,
+              height: 30.0.h,
               child: const CircularProgressIndicator(
                 color: Color(0xFF4A6848),
               ),
