@@ -21,24 +21,44 @@ class AudioEncodingErrorState extends AudioManagementState {
 class LoadingAudioState extends AudioManagementState {
   @override
   List<Object> get props => [];
+
+  LoadingAudioState() {
+    print("LoadingAudioState");
+  }
 }
 
 class SuccessAudioLoadingState extends AudioManagementState {
   @override
   List<Object> get props => [];
+
+  SuccessAudioLoadingState() {
+    print("SuccessAudioLoadingState");
+  }
 }
 
 class PlayingAudioState extends AudioManagementState {
   @override
   List<Object> get props => [];
+
+  PlayingAudioState() {
+    print("PlayingAudioState");
+  }
 }
 
 class PausedAudioState extends AudioManagementState {
   @override
   List<Object> get props => [];
+
+  PausedAudioState() {
+    print("PausedAudioState");
+  }
 }
 
 class EndedAudioState extends AudioManagementState {
   @override
   List<Object> get props => [];
+
+  EndedAudioState() {
+    print("EndedAudioState");
+  }
 }

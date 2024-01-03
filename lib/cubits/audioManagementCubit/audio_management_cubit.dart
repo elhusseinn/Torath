@@ -34,6 +34,10 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
     });
   }
 
+  void emitAudioLoadingState() {
+    emit(LoadingAudioState());
+  }
+
   void startAudio(AudioPlayerDao audio) async {
     emit(LoadingAudioState());
     // Try to load audio from a source and catch any errors.
@@ -87,13 +91,28 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
     startAudio(audio);
   }
 
-  Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-          _player.positionStream,
-          _player.bufferedPositionStream,
-          _player.durationStream,
-          (position, bufferedPosition, duration) => PositionData(
-              position, bufferedPosition, duration ?? Duration.zero));
+  Stream<PositionData> getPositionDataStream() {
+    return Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+        _player.positionStream,
+        _player.bufferedPositionStream,
+        _player.durationStream,
+        (position, bufferedPosition, duration) => PositionData(
+            position, bufferedPosition, duration ?? Duration.zero));
+  }
+
+  AudioPlayer getAudioPlayer() {
+    return _player;
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.detached) {
+      // Release the player's resources when not in use. We use "stop" so that
+      // if the app resumes later, it will still remember what position to
+      // resume from.
+      _player.stop();
+    }
+  }
 
   @override
   Future<void> close() {

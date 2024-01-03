@@ -11,6 +11,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:just_audio_background/just_audio_background.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_state.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,7 @@ import '../../models/DAOs/position_data.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   AudioPlayerDao audio;
+
   AudioPlayerScreen({super.key, required this.audio}) {
     print(audio.link);
   }
@@ -29,80 +31,19 @@ class AudioPlayerScreen extends StatefulWidget {
   State<AudioPlayerScreen> createState() => _AudioPlayerScreenState();
 }
 
-class _AudioPlayerScreenState extends State<AudioPlayerScreen>
-    with WidgetsBindingObserver {
-  final _player = AudioPlayer();
+class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _init();
+    context.read<AudioManagementCubit>().startAudio(widget.audio);
   }
-
-  Future<void> _init() async {
-    // Inform the operating system of our app's audio attributes etc.
-    // We pick a reasonable default for an app that plays speech.
-    final session = await AudioSession.instance;
-    await session.configure(const AudioSessionConfiguration.speech());
-    // Listen to errors during playback.
-    _player.playbackEventStream.listen((event) {},
-        onError: (Object e, StackTrace stackTrace) {
-      print('A stream error occurred: $e');
-    });
-    // Try to load audio from a source and catch any errors.
-    try {
-      // AAC example: https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.aac
-      await _player.setAudioSource(AudioSource.uri(
-        Uri.parse(widget.audio.link),
-        tag: MediaItem(
-          id: widget.audio.link,
-          title:
-              'سورة ${widget.audio.surahName}\n${widget.audio.place} - ${widget.audio.time}',
-          artist: "مصطفي إسماعيل",
-          artUri: Uri.parse(
-              "https://th.bing.com/th/id/R.f366a92082b833807a7f7943f1f55c91?rik=EMjTvENQZQd1cA&pid=ImgRaw&r=0&sres=1&sresct=1"),
-        ),
-      ));
-    } catch (e) {
-      Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-              "لا يمكن تشغيل هذه التلاوه برجاء المحاوله مره اخري او التواصل مع الدعم"),
-        ),
-      );
-      print("Error loading audio source: $e");
-    }
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _player.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.detached) {
-      // Release the player's resources when not in use. We use "stop" so that
-      // if the app resumes later, it will still remember what position to
-      // resume from.
-      _player.stop();
-    }
-  }
-
-  Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-          _player.positionStream,
-          _player.bufferedPositionStream,
-          _player.durationStream,
-          (position, bufferedPosition, duration) => PositionData(
-              position, bufferedPosition, duration ?? Duration.zero));
 
   @override
   Widget build(BuildContext context) {
+    final player = context.read<AudioManagementCubit>().getAudioPlayer();
+    Stream<PositionData> positionDataStream =
+        context.read<AudioManagementCubit>().getPositionDataStream();
     return Material(
       child: Container(
         color: const Color(0xFFD0D9D0),
@@ -159,9 +100,14 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
             ),
             BlocProvider.value(
               value: BlocProvider.of<AudioManagementCubit>(context),
-              child: AudioControlButtons(
-                player: _player,
-                positionDataStream: _positionDataStream,
+              child: BlocBuilder<AudioManagementCubit, AudioManagementState>(
+                builder: (context, state) {
+                  print(state.toString() + " AudioStatE");
+                  return AudioControlButtons(
+                    player: player,
+                    positionDataStream: positionDataStream,
+                  );
+                },
               ),
             )
           ],
