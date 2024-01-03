@@ -6,14 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
-import 'package:torath/cubits/audioManagementCubit/audio_management_state.dart';
 
 import '../../../models/DAOs/position_data.dart';
 
 class AudioControlButtons extends StatefulWidget {
   final AudioPlayer player;
   Stream<PositionData> positionDataStream;
-  AudioControlButtons({super.key, required this.positionDataStream, required this.player});
+  AudioControlButtons(
+      {super.key, required this.positionDataStream, required this.player});
 
   @override
   State<AudioControlButtons> createState() => _AudioControlButtonsState();
@@ -28,8 +28,8 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
           children: [
             GestureDetector(
               onTap: () {
-                widget.player.seek(
-                    widget.player.position - const Duration(seconds: 10));
+                widget.player
+                    .seek(widget.player.position - const Duration(seconds: 10));
               },
               child: SvgPicture.asset(AssetsCatalog.seekBackward10),
             ),

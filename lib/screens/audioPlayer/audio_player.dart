@@ -100,14 +100,9 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
             ),
             BlocProvider.value(
               value: BlocProvider.of<AudioManagementCubit>(context),
-              child: BlocBuilder<AudioManagementCubit, AudioManagementState>(
-                builder: (context, state) {
-                  print(state.toString() + " AudioStatE");
-                  return AudioControlButtons(
-                    player: player,
-                    positionDataStream: positionDataStream,
-                  );
-                },
+              child: AudioControlButtons(
+                player: player,
+                positionDataStream: positionDataStream,
               ),
             )
           ],
