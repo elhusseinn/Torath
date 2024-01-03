@@ -41,98 +41,101 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        top: false,
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          color: ColorsCatalog.backGroundColor,
-          // color: Colors.blueGrey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                      context, RoutesCatalog.homeScreen);
-                  // invalidates NewUser
-                  PreferenceManager.setNewUser(false);
-                  print(PreferenceManager.isNewUser);
-                },
-                child: Container(
-                  // skip button
-                  // color: Colors.black,
-                  padding: EdgeInsets.only(right: 10.w, top: 50.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      RtlText(
-                        content: ArabicText.skip,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.sp,
-                          fontFamily: 'IBM Plex Sans',
-                          fontWeight: FontWeight.w100,
-                        ),
+      backgroundColor: ColorsCatalog.backGroundColor,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+
+        color: ColorsCatalog.backGroundColor,
+        // color: Colors.blueGrey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(
+                    context, RoutesCatalog.homeScreen);
+                // invalidates NewUser
+                PreferenceManager.setNewUser(false);
+                print(PreferenceManager.isNewUser);
+              },
+              child: Container(
+                // skip button
+                // color: Colors.black,
+                padding: EdgeInsetsDirectional.only(end: 20.w, top: 50.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    RtlText(
+                      content: ArabicText.skip,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.sp,
+                        fontFamily: 'IBM Plex Sans',
+                        fontWeight: FontWeight.w100,
                       ),
-                      SizedBox(
-                        width: 15.w,
-                      ),
-                      SvgPicture.asset(AssetsCatalog.nextArrow),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      width: 15.w,
+                    ),
+                    SvgPicture.asset(AssetsCatalog.nextArrow),
+                  ],
                 ),
               ),
-              Expanded(
-                child: PageView(
-                  onPageChanged: (value) {
-                    setState(() {
-                      currentIndexPage = value;
-                    });
-                  },
-                  controller: _pageController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  children: pages
-                      .map((e) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [e],
-                          ))
-                      .toList(),
-                ),
-              ).animate().slideX(
-                  begin: 0.5,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeIn),
-              // SizedBox(height: 10.h,),
-              SafeArea(
-                child: Container(
-                  // color: Colors.red,
-                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //previous button
-                      currentIndexPage != 0
-                          ? GestureDetector(
-                              onTap: () {
-                                _pageController.previousPage(
-                                    duration: const Duration(milliseconds: 400),
-                                    curve: Curves.easeInOut);
-                              },
-                              child:
-                                  SvgPicture.asset(AssetsCatalog.previousArrow),
-                            )
-                          : Container(width: 25.w,),
+            ),
+            Expanded(
+              child: PageView(
+                onPageChanged: (value) {
+                  setState(() {
+                    currentIndexPage = value;
+                  });
+                },
+                controller: _pageController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: pages
+                    .map((e) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [e],
+                        ))
+                    .toList(),
+              ),
+            ).animate().slideX(
+                begin: 0.5,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeIn),
+            // SizedBox(height: 10.h,),
+            Container(
+              // color: Colors.red,
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //previous button
+                  currentIndexPage != 0
+                      ? GestureDetector(
+                          onTap: () {
+                            _pageController.previousPage(
+                                duration: const Duration(milliseconds: 400),
+                                curve: Curves.easeInOut);
+                          },
+                          child: SvgPicture.asset(AssetsCatalog.previousArrow),
+                        )
+                      : Container(
+                          width: 25.w,
+                        ),
 
-                      //dots indicator
-                      DotsIndicator(
+                  //dots indicator
+                  Expanded(
+                    child: Container(
+                      child: DotsIndicator(
                         position: currentIndexPage.toDouble(),
                         decorator: DotsDecorator(
-                          spacing: EdgeInsets.only(left: 10.w),
+                          spacing: EdgeInsets.symmetric(horizontal: 5.w),
                           color: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
@@ -142,31 +145,31 @@ class _OnBoardingState extends State<OnBoarding> {
                         ),
                         dotsCount: pages.length,
                       ),
-
-                      //next button
-                      GestureDetector(
-                        onTap: () {
-                          if (currentIndexPage == pages.length - 1) {
-                            Navigator.pushReplacementNamed(
-                                context, RoutesCatalog.homeScreen);
-                            // invalidates NewUser
-                            PreferenceManager.setNewUser(false);
-                            print(PreferenceManager.isNewUser());
-                          } else {
-                            print(PreferenceManager.isNewUser());
-                            _pageController.nextPage(
-                                duration: const Duration(milliseconds: 1000),
-                                curve: Curves.easeIn);
-                          }
-                        },
-                        child: SvgPicture.asset(AssetsCatalog.nextArrow),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+
+                  //next button
+                  GestureDetector(
+                    onTap: () {
+                      if (currentIndexPage == pages.length - 1) {
+                        Navigator.pushReplacementNamed(
+                            context, RoutesCatalog.homeScreen);
+                        // invalidates NewUser
+                        PreferenceManager.setNewUser(false);
+                        print(PreferenceManager.isNewUser());
+                      } else {
+                        print(PreferenceManager.isNewUser());
+                        _pageController.nextPage(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeIn);
+                      }
+                    },
+                    child: SvgPicture.asset(AssetsCatalog.nextArrow),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
