@@ -28,11 +28,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
           )
         ],
       ),
-      child: buildBottomNavigationBar(),
+      child: _buildNewBottomNavBar(),
     );
   }
 
-  Directionality buildBottomNavigationBar() {
+  Widget buildBottomNavigationBar() {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: BottomNavigationBar(
@@ -76,12 +76,76 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       : const Color(0xFFD9D9D9)),
               label: ArabicText.contactUs),
         ],
-        // currentIndex: widget.selected!,
         onTap: (index) {
           widget.onSelect(index);
-          // Navigator.of(context).popUntil((route) => route.isFirst);
         },
         backgroundColor: const Color(0xFF4A6848),
+      ),
+    );
+  }
+
+  Widget _buildNewBottomNavBar() {
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Container(
+        color: const Color(0xFF4A6848),
+        padding: EdgeInsets.only(top: 10.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildNavBarItem(
+                icon: AssetsCatalog.navBarHomeIcon,
+                label: ArabicText.mainHome,
+                index: 0),
+            _buildNavBarItem(
+                icon: AssetsCatalog.favIcon,
+                label: ArabicText.favourite,
+                index: 1),
+            _buildNavBarItem(
+                icon: AssetsCatalog.seraIcon, label: ArabicText.sera, index: 2),
+            _buildNavBarItem(
+                icon: AssetsCatalog.contactUsIcon,
+                label: ArabicText.contactUs,
+                index: 3),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavBarItem(
+      {required String icon, required String label, required int index}) {
+    return InkWell(
+      onTap: () {
+        widget.onSelect(index);
+      },
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height*0.0599,
+        child: Column(
+          children: [
+            SvgPicture.asset(icon,
+                width: 25.w,
+                height: 25.h,
+                color: widget.selected == index
+                    ? const Color(0xFF224520)
+                    : const Color(0xFFD9D9D9)),
+            Container(
+              margin: EdgeInsets.only(top: 3.h),
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: widget.selected == index
+                      ? const Color(0xFF224520)
+                      : const Color(0xFFD9D9D9),
+                  fontSize: 13.sp,
+                  fontFamily: 'IBM Plex Sans',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
