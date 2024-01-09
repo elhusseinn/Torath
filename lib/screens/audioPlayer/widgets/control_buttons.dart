@@ -107,10 +107,17 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
                   ),
                 );
               } else if (playing != true) {
+                // context.read<AudioManagementCubit>().pauseAudio();
                 return _buildRowButtons(false);
               } else if (processingState != ProcessingState.completed) {
+                // context.read<AudioManagementCubit>().playAudio();
                 return _buildRowButtons(true);
-              } else {
+              }else if (playing == true){
+                context.read<AudioManagementCubit>().emitPlayingState();
+                return Container();
+              }
+              else {
+                context.read<AudioManagementCubit>().emitCompletedAudioState();
                 context.read<AudioManagementCubit>().endAudio();
                 return GestureDetector(
                   onTap: () {

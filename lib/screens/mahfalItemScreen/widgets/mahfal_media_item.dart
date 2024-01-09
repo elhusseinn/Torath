@@ -84,8 +84,11 @@ class MahfalMediaItem extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                AudioPlayerDao audio = AudioPlayerDao(mahfalData.link!,
-                    mahfalData.surah!, mahfalData.place!, mahfalData.timeYear!);
+                AudioPlayerDao audio = AudioPlayerDao(
+                    link: mahfalData.link!,
+                    surahName: mahfalData.surah!,
+                    place: mahfalData.place!,
+                    time: mahfalData.timeYear!);
                 Navigator.of(context)
                     .pushNamed(RoutesCatalog.audioPlayer, arguments: audio);
               },

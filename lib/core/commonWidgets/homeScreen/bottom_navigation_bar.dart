@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:torath/core/language/text.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
+import 'package:torath/cubits/audioManagementCubit/audio_management_state.dart';
+import 'package:torath/screens/audioPlayer/widgets/mini_audio_player.dart';
 
 class BottomNavBar extends StatefulWidget {
   int? selected;
@@ -14,6 +18,56 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
+  bool _miniMediaPlayerVisible = false;
+  double _stackHeight = kBottomNavigationBarHeight;
+  void _showOverlay(BuildContext context) async {
+    print("OVERLAY");
+    // Declaring and Initializing OverlayState
+    // and OverlayEntry objects
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(
+        builder: (context) {
+          // You can return any widget you like here
+          // to be displayed on the Overlay
+          return Positioned(
+            bottom: 0,
+            child: Material(
+              child: Container(
+                height: 50.h,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.white,
+                child: Center(child: Text("test")),
+              ),
+            ),
+          );
+        },
+        opaque: true);
+
+    // Inserting the OverlayEntry into the Overlay
+    overlayState.insert(overlayEntry);
+    // Awaiting for 3 seconds
+    await Future.delayed(Duration(seconds: 3));
+
+    // Removing the OverlayEntry from the Overlay
+    overlayEntry.remove();
+  }
+
+  void _minimizedMediaPlayerOn() {
+    if(_miniMediaPlayerVisible) return;
+    setState(() {
+      _miniMediaPlayerVisible = true;
+      _stackHeight += (90.h - 7);
+    });
+  }
+
+  void _minimizedMediaPlayerOff() {
+    setState(() {
+      _miniMediaPlayerVisible = false;
+      _stackHeight -= (90.h);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,6 +83,107 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ],
       ),
       child: _buildNewBottomNavBar(),
+    );
+  }
+
+  Widget _buildNewBottomNavBar() {
+    return BlocListener<AudioManagementCubit, AudioManagementState>(
+      listener: (context, state) {
+        // TODO: implement listener
+        if (state is SuccessAudioLoadingState) {
+          _minimizedMediaPlayerOn();
+        } else {
+          _minimizedMediaPlayerOn();
+        }
+      },
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Container(
+          // color: Colors.red,
+          color:const Color(0xFFD0D9D0),
+          height: _stackHeight + 7,
+          child: Stack(
+            children: [
+              Visibility(
+                visible: _miniMediaPlayerVisible,
+                child: const Positioned(
+                  bottom: kBottomNavigationBarHeight,
+                  left: 0,
+                  right: 0,
+                  child:MiniAudioPlayer(),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  color: const Color(0xFF4A6848),
+                  padding: EdgeInsets.only(top: 10.h),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      _buildNavBarItem(
+                          icon: AssetsCatalog.navBarHomeIcon,
+                          label: ArabicText.mainHome,
+                          index: 0),
+                      _buildNavBarItem(
+                          icon: AssetsCatalog.favIcon,
+                          label: ArabicText.favourite,
+                          index: 1),
+                      _buildNavBarItem(
+                          icon: AssetsCatalog.seraIcon,
+                          label: ArabicText.sera,
+                          index: 2),
+                      _buildNavBarItem(
+                          icon: AssetsCatalog.contactUsIcon,
+                          label: ArabicText.contactUs,
+                          index: 3),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavBarItem(
+      {required String icon, required String label, required int index}) {
+    return InkWell(
+      onTap: () {
+        widget.onSelect(index);
+      },
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.0599,
+        child: Column(
+          children: [
+            SvgPicture.asset(icon,
+                width: 25.w,
+                height: 25.h,
+                color: widget.selected == index
+                    ? const Color(0xFF224520)
+                    : const Color(0xFFD9D9D9)),
+            Container(
+              margin: EdgeInsets.only(top: 3.h),
+              child: Text(
+                label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: widget.selected == index
+                      ? const Color(0xFF224520)
+                      : const Color(0xFFD9D9D9),
+                  fontSize: 13.sp,
+                  fontFamily: 'IBM Plex Sans',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -80,72 +235,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
           widget.onSelect(index);
         },
         backgroundColor: const Color(0xFF4A6848),
-      ),
-    );
-  }
-
-  Widget _buildNewBottomNavBar() {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Container(
-        color: const Color(0xFF4A6848),
-        padding: EdgeInsets.only(top: 10.h),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavBarItem(
-                icon: AssetsCatalog.navBarHomeIcon,
-                label: ArabicText.mainHome,
-                index: 0),
-            _buildNavBarItem(
-                icon: AssetsCatalog.favIcon,
-                label: ArabicText.favourite,
-                index: 1),
-            _buildNavBarItem(
-                icon: AssetsCatalog.seraIcon, label: ArabicText.sera, index: 2),
-            _buildNavBarItem(
-                icon: AssetsCatalog.contactUsIcon,
-                label: ArabicText.contactUs,
-                index: 3),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildNavBarItem(
-      {required String icon, required String label, required int index}) {
-    return InkWell(
-      onTap: () {
-        widget.onSelect(index);
-      },
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height*0.0599,
-        child: Column(
-          children: [
-            SvgPicture.asset(icon,
-                width: 25.w,
-                height: 25.h,
-                color: widget.selected == index
-                    ? const Color(0xFF224520)
-                    : const Color(0xFFD9D9D9)),
-            Container(
-              margin: EdgeInsets.only(top: 3.h),
-              child: Text(
-                label,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: widget.selected == index
-                      ? const Color(0xFF224520)
-                      : const Color(0xFFD9D9D9),
-                  fontSize: 13.sp,
-                  fontFamily: 'IBM Plex Sans',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

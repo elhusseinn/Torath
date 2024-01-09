@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes_catalog.dart';
 
+import '../../../cubits/audioManagementCubit/audio_management_cubit.dart';
 import '../homeScreen/app_bar.dart';
 import '../homeScreen/bottom_navigation_bar.dart';
 
@@ -26,11 +29,15 @@ class _PageTemplateState extends State<PageTemplate> {
         preferredSize: Size.fromHeight(70.h),
         child: Appbar(onPress: onSelect),
       ),
-      bottomNavigationBar: BottomNavBar(selected: -1, onSelect: onSelect),
       body: Container(
         color:const Color(0xFFD0D9D0),
         child: widget.page,
       ),
+      bottomNavigationBar: BlocProvider.value(
+        value: PreferenceManager().audioManagementCubit,
+        child: BottomNavBar(selected: -1, onSelect: onSelect),
+      ),
+
     );
   }
 }

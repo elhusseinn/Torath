@@ -23,7 +23,7 @@ import '../../models/DAOs/position_data.dart';
 class AudioPlayerScreen extends StatefulWidget {
   AudioPlayerDao audio;
 
-  AudioPlayerScreen({super.key, required this.audio}) {
+  AudioPlayerScreen({super.key, required this.audio,}) {
     print(audio.link);
   }
 
@@ -36,6 +36,11 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    if(widget.audio.miniPlayerOpened != null){
+      if(widget.audio.miniPlayerOpened!){
+        return;
+      }
+    }
     context.read<AudioManagementCubit>().startAudio(widget.audio);
   }
 
@@ -57,11 +62,14 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
+
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 12.h),
-              child: Image.asset(AssetsCatalog.audioPlayerImage),
+              child: Hero(
+                tag: 'playerAvatar',
+                  child: Image.asset(AssetsCatalog.audioPlayerImage)),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

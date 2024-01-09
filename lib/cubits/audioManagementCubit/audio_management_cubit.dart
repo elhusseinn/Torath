@@ -12,6 +12,7 @@ import 'audio_management_state.dart';
 class AudioManagementCubit extends Cubit<AudioManagementState>
     with WidgetsBindingObserver {
   final _player = AudioPlayer();
+  late AudioPlayerDao _audioDao;
 
   AudioManagementCubit() : super(NoAudioRunningState()) {
     WidgetsBinding.instance.addObserver(this);
@@ -37,9 +38,16 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
   void emitAudioLoadingState() {
     emit(LoadingAudioState());
   }
+  void emitCompletedAudioState() {
+    emit(CompletedAudioState());
+  }
+  void emitPlayingState(){
+    emit(PlayingAudioState());
+  }
 
   void startAudio(AudioPlayerDao audio) async {
     emit(LoadingAudioState());
+    _audioDao = audio;
     // Try to load audio from a source and catch any errors.
     try {
       await _player.setAudioSource(
@@ -68,6 +76,10 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
     }
   }
 
+  AudioPlayerDao getAudioMetaData(){
+    return _audioDao;
+  }
+
   void playAudio() {
     emit(PlayingAudioState());
     _player.play();
@@ -80,6 +92,10 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
 
   void stopAudio() {
     _player.stop();
+  }
+  void restartAudio(){
+    emit(PlayingAudioState());
+    _player.seek(Duration.zero);
   }
 
   void endAudio() {

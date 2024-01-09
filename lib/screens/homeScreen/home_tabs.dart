@@ -60,7 +60,10 @@ class _HomeTabsState extends State<HomeTabs> with WidgetsBindingObserver {
           child: Globals.navBarPageList[_page],
         ),
       ),
-      bottomNavigationBar: BottomNavBar(selected: _page, onSelect: onSelect),
+      bottomNavigationBar: BlocProvider.value(
+        value:BlocProvider.of<AudioManagementCubit>(context),
+        child: BottomNavBar(selected: _page, onSelect: onSelect),
+      ),
     );
   }
 }

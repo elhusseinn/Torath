@@ -23,7 +23,7 @@ class AppRouter {
   PreferenceManager preferenceManager;
 
   AppRouter({required this.preferenceManager, required this.repo});
-  final audioManagementCubit = AudioManagementCubit();
+  final audioManagementCubit = PreferenceManager().audioManagementCubit;
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -43,6 +43,7 @@ class AppRouter {
       case RoutesCatalog.audioPlayer:
         final args = settings.arguments as AudioPlayerDao;
         return PageRouteBuilder(
+          // transitionDuration: Duration(seconds: 2),
           pageBuilder: (context, animation, secondaryAnimation) {
             return BlocProvider.value(
               value: audioManagementCubit,

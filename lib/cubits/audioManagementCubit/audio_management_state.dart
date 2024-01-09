@@ -53,6 +53,14 @@ class PausedAudioState extends AudioManagementState {
     print("PausedAudioState");
   }
 }
+class CompletedAudioState extends AudioManagementState {
+  @override
+  List<Object> get props => [];
+
+  CompletedAudioState() {
+    print("CompletedAudioState");
+  }
+}
 
 class EndedAudioState extends AudioManagementState {
   @override

@@ -3,6 +3,12 @@ class AudioPlayerDao {
   String surahName;
   String place;
   String time;
+  bool? miniPlayerOpened;
 
-  AudioPlayerDao(this.link, this.surahName, this.place, this.time);
+  AudioPlayerDao(
+      {required this.link,
+      required this.surahName,
+      required this.place,
+      required this.time,
+      this.miniPlayerOpened});
 }
