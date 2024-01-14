@@ -10,7 +10,9 @@ import '../homeScreen/bottom_navigation_bar.dart';
 
 class PageTemplate extends StatefulWidget {
   Widget page;
+
   PageTemplate({required this.page, super.key});
+
   @override
   State<PageTemplate> createState() => _PageTemplateState();
 }
@@ -18,8 +20,8 @@ class PageTemplate extends StatefulWidget {
 class _PageTemplateState extends State<PageTemplate> {
   void onSelect(index) {
     Navigator.popUntil(context, (route) => route.isFirst);
-    Navigator.pushReplacementNamed(context, RoutesCatalog.homeScreen, arguments: index);
-
+    Navigator.pushReplacementNamed(
+        context, RoutesCatalog.homeScreen, arguments: index);
   }
 
   @override
@@ -30,11 +32,18 @@ class _PageTemplateState extends State<PageTemplate> {
         child: Appbar(onPress: onSelect),
       ),
       body: Container(
-        color:const Color(0xFFD0D9D0),
+        color: const Color(0xFFD0D9D0),
         child: widget.page,
       ),
-      bottomNavigationBar: BlocProvider.value(
-        value: PreferenceManager().audioManagementCubit,
+      bottomNavigationBar: MultiBlocProvider(
+        providers: [
+          BlocProvider.value(
+            value: PreferenceManager().audioManagementCubit,
+          ),
+          BlocProvider.value(
+            value: PreferenceManager().miniPlayerManagementCubit,
+          ),
+        ],
         child: BottomNavBar(selected: -1, onSelect: onSelect),
       ),
 

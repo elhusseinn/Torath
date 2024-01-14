@@ -44,10 +44,14 @@ class AudioManagementCubit extends Cubit<AudioManagementState>
   void emitPlayingState(){
     emit(PlayingAudioState());
   }
+  void emitPausedAudioState(){
+    emit(PausedAudioState());
+  }
 
   void startAudio(AudioPlayerDao audio) async {
     emit(LoadingAudioState());
     _audioDao = audio;
+    _player.pause();
     // Try to load audio from a source and catch any errors.
     try {
       await _player.setAudioSource(

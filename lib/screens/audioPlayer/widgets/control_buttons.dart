@@ -21,6 +21,12 @@ class AudioControlButtons extends StatefulWidget {
 
 class _AudioControlButtonsState extends State<AudioControlButtons> {
   Widget _buildRowButtons(bool isPlaying) {
+    if(isPlaying){
+      context.read<AudioManagementCubit>().emitPlayingState();
+    }
+    else if(!isPlaying){
+      context.read<AudioManagementCubit>().emitPausedAudioState();
+    }
     return Column(
       children: [
         Row(
@@ -112,10 +118,11 @@ class _AudioControlButtonsState extends State<AudioControlButtons> {
               } else if (processingState != ProcessingState.completed) {
                 // context.read<AudioManagementCubit>().playAudio();
                 return _buildRowButtons(true);
-              }else if (playing == true){
-                context.read<AudioManagementCubit>().emitPlayingState();
-                return Container();
               }
+              // else if (playing == true){
+              //   context.read<AudioManagementCubit>().emitPlayingState();
+              //   return Container();
+              // }
               else {
                 context.read<AudioManagementCubit>().emitCompletedAudioState();
                 context.read<AudioManagementCubit>().endAudio();

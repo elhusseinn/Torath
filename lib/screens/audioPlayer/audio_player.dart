@@ -12,6 +12,7 @@ import 'package:just_audio_background/just_audio_background.dart';
 import 'package:torath/core/utils/assets_catalog.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_state.dart';
+import 'package:torath/cubits/miniPlayerManagementCubit/mini_player_management_cubit.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +43,10 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
       }
     }
     context.read<AudioManagementCubit>().startAudio(widget.audio);
+    context.read<MiniPlayerManagementCubit>().emitMiniPlayerAudioChanged();
+    context.read<MiniPlayerManagementCubit>().emitMiniPlayerInitialState();
   }
+
 
   @override
   Widget build(BuildContext context) {

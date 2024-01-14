@@ -8,6 +8,7 @@ import 'package:torath/core/utils/routes_catalog.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/filterCubits/getAllPlacesTimesCubit/get_all_places_times_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_cubit.dart';
+import 'package:torath/cubits/miniPlayerManagementCubit/mini_player_management_cubit.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
 import 'package:torath/screens/audioPlayer/audio_player.dart';
 import 'package:torath/screens/homeScreen/home_tabs.dart';
@@ -24,6 +25,7 @@ class AppRouter {
 
   AppRouter({required this.preferenceManager, required this.repo});
   final audioManagementCubit = PreferenceManager().audioManagementCubit;
+  final miniPlayerManagementCubit = PreferenceManager().miniPlayerManagementCubit;
 
   Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -33,8 +35,15 @@ class AppRouter {
       case RoutesCatalog.homeScreen:
         final args = settings.arguments as int?;
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                  value: audioManagementCubit,
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: audioManagementCubit,
+                    ),
+                    BlocProvider.value(
+                      value: miniPlayerManagementCubit,
+                    ),
+                  ],
                   child: HomeTabs(
                     selectedPage: args,
                   ),
@@ -45,8 +54,15 @@ class AppRouter {
         return PageRouteBuilder(
           // transitionDuration: Duration(seconds: 2),
           pageBuilder: (context, animation, secondaryAnimation) {
-            return BlocProvider.value(
-              value: audioManagementCubit,
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: audioManagementCubit,
+                ),
+                BlocProvider.value(
+                  value: miniPlayerManagementCubit,
+                ),
+              ],
               child: AudioPlayerScreen(audio: args),
             );
           },
