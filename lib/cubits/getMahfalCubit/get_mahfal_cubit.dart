@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:torath/core/repository/repo_interface.dart';
 import 'package:torath/models/getMahfal/get_mahfal_request.dart';
-import 'package:torath/models/getMahfal/get_mahfal_response.dart';
 
 import 'get_mahfal_state.dart';
 

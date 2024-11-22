@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:torath/core/commonWidgets/pageTemplate/page_template.dart';
-import 'package:torath/core/repository/repo_interface.dart';
 import 'package:torath/screens/mahafelScreen/widgets/surah_folder_item.dart';
 
 import '../../core/utils/globals.dart';

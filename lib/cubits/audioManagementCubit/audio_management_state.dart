@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:just_audio/just_audio.dart';
 
 abstract class AudioManagementState extends Equatable {
   const AudioManagementState();

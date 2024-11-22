@@ -133,7 +133,7 @@ class _OnBoardingState extends State<OnBoarding> {
                   Expanded(
                     child: Container(
                       child: DotsIndicator(
-                        position: currentIndexPage.toDouble(),
+                        position: currentIndexPage,
                         decorator: DotsDecorator(
                           spacing: EdgeInsets.symmetric(horizontal: 5.w),
                           color: Colors.white,

@@ -22,22 +22,22 @@ class MiniAudioPlayer extends StatefulWidget {
 class _MiniAudioPlayerState extends State<MiniAudioPlayer> {
   @override
   Widget build(BuildContext context) {
-    AudioPlayerDao _audioPlayer =
+    AudioPlayerDao audioPlayer =
         PreferenceManager().audioManagementCubit.getAudioMetaData();
     return BlocListener<MiniPlayerManagementCubit, MiniPlayerManagementState>(
       listener: (context, state) {
         if (state is MiniPlayerManagementAudioChangedState) {
           setState(() {
-            _audioPlayer =
+            audioPlayer =
                 PreferenceManager().audioManagementCubit.getAudioMetaData();
           });
         }
       },
       child: GestureDetector(
         onTap: () {
-          _audioPlayer.miniPlayerOpened = true;
+          audioPlayer.miniPlayerOpened = true;
           Navigator.of(context)
-              .pushNamed(RoutesCatalog.audioPlayer, arguments: _audioPlayer);
+              .pushNamed(RoutesCatalog.audioPlayer, arguments: audioPlayer);
         },
         child: Directionality(
           textDirection: TextDirection.ltr,
@@ -66,7 +66,7 @@ class _MiniAudioPlayerState extends State<MiniAudioPlayer> {
                 Column(
                   children: [
                     Text(
-                      'سورة ${_audioPlayer.surahName}',
+                      'سورة ${audioPlayer.surahName}',
                       style: TextStyle(
                         color: const Color(0xFF4F4C4C),
                         fontSize: 32.sp,
@@ -75,7 +75,7 @@ class _MiniAudioPlayerState extends State<MiniAudioPlayer> {
                       ),
                     ),
                     Text(
-                      '${_audioPlayer.place} - ${_audioPlayer.time}',
+                      '${audioPlayer.place} - ${audioPlayer.time}',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15.sp,

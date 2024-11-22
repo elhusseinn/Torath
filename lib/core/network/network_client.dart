@@ -1,9 +1,7 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 
 import '../error/exceptions.dart';
 import '../utils/preference_manager.dart';
@@ -31,7 +29,7 @@ class NetworkClient implements INetworkClient {
   final Dio dio = Dio();
 
   NetworkClient() {
-    PreferenceManager preferenceManager = new PreferenceManager();
+    PreferenceManager preferenceManager = PreferenceManager();
     BaseOptions options = BaseOptions(
       baseUrl: Properties.baseUrl,
       connectTimeout: const Duration(minutes: 1),
@@ -82,14 +80,14 @@ class NetworkClient implements INetworkClient {
         print("res:$response");
       }
       return getNetworkResponse(response);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       // loggy.error(e.type);
-      if (e.type == DioErrorType.badResponse) {
+      if (e.type == DioExceptionType.badResponse) {
         return getNetworkResponse(e.response!);
-      } else if (e.type == DioErrorType.connectionTimeout ||
-          e.type == DioErrorType.receiveTimeout ||
-          e.type == DioErrorType.sendTimeout ||
-          e.type == DioErrorType.unknown) {
+      } else if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.unknown) {
         throw NetworkException();
       }
 
@@ -115,13 +113,13 @@ class NetworkClient implements INetworkClient {
       );
 
       return getNetworkResponse(response);
-    } on DioError catch (e) {
-      if (e.type == DioErrorType.badResponse) {
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
         return getNetworkResponse(e.response!);
-      } else if (e.type == DioErrorType.connectionTimeout ||
-          e.type == DioErrorType.receiveTimeout ||
-          e.type == DioErrorType.sendTimeout ||
-          e.type == DioErrorType.unknown) {
+      } else if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.unknown) {
         throw NetworkException();
       }
 
@@ -142,13 +140,13 @@ class NetworkClient implements INetworkClient {
         data: data,
       );
       return getNetworkResponse(response);
-    } on DioError catch (e) {
-      if (e.type == DioErrorType.badResponse) {
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.badResponse) {
         return getNetworkResponse(e.response!);
-      } else if (e.type == DioErrorType.connectionTimeout ||
-          e.type == DioErrorType.receiveTimeout ||
-          e.type == DioErrorType.sendTimeout ||
-          e.type == DioErrorType.unknown) {
+      } else if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.sendTimeout ||
+          e.type == DioExceptionType.unknown) {
         throw NetworkException();
       }
 

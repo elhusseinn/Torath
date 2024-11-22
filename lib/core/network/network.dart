@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:torath/core/utils/properties.dart';
 
 import '../error/exceptions.dart';
 import '../utils/enums.dart';
-import '../utils/globals.dart';
 import '../utils/preference_manager.dart';
 import 'network_client.dart';
 import 'network_response.dart';
@@ -29,7 +26,7 @@ abstract class INetwork {
       bool auth = true,
       bool visitor = false,
       bool isExternal = false,
-      Map<String, String>? headers = null});
+      Map<String, String>? headers});
   Future<Map<String, dynamic>> put(String url,
       {dynamic data, bool auth = true, bool visitor = false});
 }
@@ -54,8 +51,9 @@ class Network implements INetwork {
   }
 
   void savePostRequest(String url, dynamic data) {
-    if (kDebugMode)
+    if (kDebugMode) {
       print("-------- url is $url and body is  ${data.toString()}");
+    }
     oldRequest = null;
     oldRequest ??=
         RetrialRequest(method: RequestType.post, url: url, data: data);
@@ -119,7 +117,7 @@ class Network implements INetwork {
       Map<String, String>? otherHeaders,
       bool isFullUrl = false}) async {
     if (kDebugMode) {
-      print("------ request url ${url}");
+      print("------ request url $url");
       //  print("------ request body is $data");
     }
     print(url);
