@@ -1,7 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:torath/core/utils/key_catalog.dart';
-import 'package:torath/core/utils/properties.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/miniPlayerManagementCubit/mini_player_management_cubit.dart';
 

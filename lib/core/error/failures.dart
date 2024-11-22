@@ -8,22 +8,22 @@ class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  ServerFailure(String message) : super(message);
+  ServerFailure(super.message);
 }
 
 class NetworkFailure extends Failure {
-  NetworkFailure(String message) : super(message);
+  NetworkFailure(super.message);
 }
 
 class UnAuthorizedFailure extends Failure {
-  UnAuthorizedFailure(String message) : super(message);
+  UnAuthorizedFailure(super.message);
 }
 
 class GeneralFailure extends Failure {
-  GeneralFailure(String message) : super(message);
+  GeneralFailure(super.message);
 }
 
 class OnboardOpenedFailure extends Failure {
-  OnboardOpenedFailure(String message) : super(message);
+  OnboardOpenedFailure(super.message);
 }
 

@@ -2,13 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:torath/core/commonWidgets/brief_component.dart';
 import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes_catalog.dart';
-import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/filterCubits/getAllPlacesTimesCubit/get_all_places_times_cubit.dart';
 import 'package:torath/cubits/getMahfalCubit/get_mahfal_cubit.dart';
-import 'package:torath/cubits/miniPlayerManagementCubit/mini_player_management_cubit.dart';
 import 'package:torath/models/DAOs/audio_player_dao.dart';
 import 'package:torath/screens/audioPlayer/audio_player.dart';
 import 'package:torath/screens/homeScreen/home_tabs.dart';
@@ -17,7 +14,6 @@ import 'package:torath/screens/onBoardingScreens/on_boarding.dart';
 
 import '../../screens/mahafelScreen/mahafel_screen.dart';
 import '../repository/repo_interface.dart';
-import 'assets_catalog.dart';
 
 class AppRouter {
   IRepository repo;

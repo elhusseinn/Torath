@@ -5,13 +5,8 @@ import 'package:torath/core/commonWidgets/homeScreen/app_bar.dart';
 import 'package:torath/core/commonWidgets/homeScreen/bottom_navigation_bar.dart';
 import 'package:torath/cubits/audioManagementCubit/audio_management_cubit.dart';
 import 'package:torath/cubits/miniPlayerManagementCubit/mini_player_management_cubit.dart';
-import 'package:torath/screens/homeScreen/home_screen.dart';
-import 'package:torath/screens/seraScreen/sera_screen.dart';
 
 import '../../core/utils/globals.dart';
-import '../../core/utils/routes_catalog.dart';
-import '../contactUsScreen/contact_us_screen.dart';
-import '../favouritesScreen/favourite_screen.dart';
 
 class HomeTabs extends StatefulWidget {
   int? selectedPage;

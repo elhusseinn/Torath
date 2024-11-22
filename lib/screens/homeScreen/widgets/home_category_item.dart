@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:torath/core/commonWidgets/text_rtl.dart';
-import 'package:torath/core/language/text.dart';
-import 'package:torath/core/utils/assets_catalog.dart';
 
 class HomeCategoryItem extends StatelessWidget {
   String? title;

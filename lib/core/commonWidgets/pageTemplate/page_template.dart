@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:torath/core/utils/preference_manager.dart';
 import 'package:torath/core/utils/routes_catalog.dart';
 
-import '../../../cubits/audioManagementCubit/audio_management_cubit.dart';
 import '../homeScreen/app_bar.dart';
 import '../homeScreen/bottom_navigation_bar.dart';
 
